@@ -1,6 +1,2 @@
-require "weather911/version"
-
-module Weather911
-  class Error < StandardError; end
-  # Your code goes here...
-end
+require_relative "weather911/version"
+require_relative "weather911/cli"
