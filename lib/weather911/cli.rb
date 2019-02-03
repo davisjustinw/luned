@@ -1,3 +1,4 @@
+#controller
 class Weather911::CLI
 
   def start
