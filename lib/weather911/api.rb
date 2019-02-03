@@ -1,7 +1,5 @@
 class Weather911::API
 
-
-
   def self.get_data(token = nil)
     if token
       token_parameter = "?$$app_token=#{token}"
