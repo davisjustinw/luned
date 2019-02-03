@@ -1,13 +1,15 @@
 class Weather911::API
 
-  def self.get_data(token)
-    client = SODA::Client.new({:domain => "opendata.socrata.com", :app_token => token})
 
-    results = client.get("4fng-4fdn", :$limit => 5000)
-    #binding.pry
-    puts "Got #{results.body.count} results. Dumping first results:"
-    results.body.first.each do |k, v|
-      puts "#{k}: #{v}"
+
+  def self.get_data(token = nil)
+    if token
+      token_parameter = "?$$app_token=#{token}"
+    else
+      token_parameter = ''
     end
+    url = "https://opendata.socrata.com/resource/4fng-4fdn.json#{token_parameter}"
+    puts url
+    HTTParty.get(url)
   end
 end
