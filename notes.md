@@ -6,6 +6,6 @@
 ## Description
   * Greet User
   * gets <mon yyyy> ex: jan 2004
-  * display calendar with moons and dispatch count
-  * gets day and displays call information
+  * display calendar with moons and color coded dispatch count
+  * gets day and displays weather, lunar, call stats
 ---
