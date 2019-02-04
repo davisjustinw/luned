@@ -24,7 +24,7 @@ class Weather911::CLI
     puts "|  6 |  7 | #{red(' 8')} |  9 | 10 | 11 | 12 |"
     puts "| 13 | 14 | 15 | 16 | 17 | 18 | 19 |"
     puts "| 20 | 21 | 22 | #{green('23')} | 24 | 25 | 26 |"
-    puts "| 27 | 28 | 29 | 30 | 21 |    |    |"
+    puts "| 27 | 28 | 29 | 30 | 31 |    |    |"
     puts ''
   end
 
@@ -33,5 +33,11 @@ class Weather911::CLI
     input = gets.chomp
   end
 
-  
+  def display_day
+    puts "Medic: 20"
+    puts "Aid:   40"
+    puts "Barometer: "
+  end
+
+
 end
