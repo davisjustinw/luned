@@ -7,5 +7,4 @@ require 'soda/client'
 
 require_relative "weather911/version"
 require_relative "weather911/cli"
-require_relative "weather911/api"
-require_relative "weather911/color"
+require_relative "weather911/scraper"

@@ -1,6 +1,6 @@
-class Weather911::API
+class Weather911::Scraper
 
-  def self.get_data(token = nil)
+  def self.get_incidents(token = nil)
     if token
       token_parameter = "?$$app_token=#{token}"
     else

@@ -1,6 +1,13 @@
 #controller
 
 class Weather911::CLI
+  def colorize(text, color_code)
+    "\e[30;#{color_code}m#{text}\e[0m"
+  end
+
+  def red(text); colorize(text, "101"); end
+  def yellow(text); colorize(text, "103"); end
+  def green(text); colorize(text, "102"); end
 
   def start
     puts ''
@@ -10,7 +17,7 @@ class Weather911::CLI
     prompt_month
     display_month('jan', '2019')
     prompt_day
-    #Weather911::API.get_data(ARGV[0])
+    #Weather911::API.get_incidents(ARGV[0])
   end
 
   def prompt_month
@@ -19,6 +26,7 @@ class Weather911::CLI
   end
 
   def display_month(month, year)
+
     puts "| Su | Mo | Tu | We | Th | Fr | Sa |"
     puts "|    |    |  1 |  2 |  3 |  4 |  5 |"
     puts "|  6 |  7 | #{red(' 8')} |  9 | 10 | 11 | 12 |"
