@@ -24,3 +24,6 @@
         day - incidents, observations
           incident - id, unit, type, address
           observation - temp, barometer, lunar phase, precip?
+---
+## Feature Ideas
+  * up command. Example when day is displayed <up 2> would print another day.

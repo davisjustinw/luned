@@ -17,6 +17,7 @@ class Weather911::CLI
     prompt_month
     display_month('jan', '2019')
     prompt_day
+    display_day
     #Weather911::API.get_incidents(ARGV[0])
   end
 
@@ -42,9 +43,19 @@ class Weather911::CLI
   end
 
   def display_day
-    puts "Medic: 20"
-    puts "Aid:   40"
-    puts "Barometer: "
+    #puts  (0..24).inject('|') { |phrase, hour| "#{phrase}#{hour.to_s.rjust(2, "0")}00|"}
+    puts "| 0000 | 0100 | 0200 | 0300 | 0400 |"
+    #puts "|      |      |      |      |      |"
+    puts "| 0500 | 0600 | #{red('0700')} | 0800 | 0900 |"
+    #puts "|      |      |      |      |      |"
+    puts "| 1000 | 1100 | 1200 | 1300 | 1400 |"
+    #puts "|      |      |      |      |      |"
+    puts "| 1500 | 1600 | 1700 | 1800 | 1900 |"
+    #puts "|      |      |      |      |      |"
+    puts "| 2000 | 2100 | 2200 | #{green('2300')} |"
+    #puts "|      |      |      |      |"
+
+    puts ''
   end
 
 
