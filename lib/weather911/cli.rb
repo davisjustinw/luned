@@ -15,16 +15,17 @@ class Weather911::CLI
     puts "\u{1F311} \u{1F312} \u{1F313} \u{1F314} \u{1F315} \u{1F316} \u{1F317} \u{1F318} \u{1F311}"
     puts ''
     prompt_month
-    
+
     #Weather911::API.get_incidents(ARGV[0])
   end
 
   def prompt_month
-    #
-    print "<mon> <yyyy>: "
-    input = gets.chomp
-
-    display_month('feb')
+    input = ''
+    until input == 'q' do
+      print "<mon> <yyyy>: "
+      input = gets.chomp
+      display_month('feb') if input !=  'q'
+    end
   end
 
   def display_month(month)
@@ -41,9 +42,12 @@ class Weather911::CLI
   end
 
   def prompt_day(month)
-    print "<day>: "
-    input = gets.chomp
-    display_day('2')
+    input = ''
+    until input == 'q' do
+      print "<day>: "
+      input = gets.chomp
+      display_day('2') if input !=  'q'
+    end
   end
 
   def display_day(day)
@@ -65,9 +69,13 @@ class Weather911::CLI
   end
 
   def prompt_hour(day)
-    print "<hour>: "
-    input = gets.chomp
-    display_hour('3')
+
+    input = ''
+    until input == 'q' do
+      print "<hour>: "
+      input = gets.chomp
+      display_hour('3') if input !=  'q'
+    end
   end
 
   def display_hour(hour)
