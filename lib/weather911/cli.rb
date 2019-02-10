@@ -15,18 +15,19 @@ class Weather911::CLI
     puts "\u{1F311} \u{1F312} \u{1F313} \u{1F314} \u{1F315} \u{1F316} \u{1F317} \u{1F318} \u{1F311}"
     puts ''
     prompt_month
-    display_month('jan', '2019')
-    prompt_day
-    display_day
+    
     #Weather911::API.get_incidents(ARGV[0])
   end
 
   def prompt_month
+    #
     print "<mon> <yyyy>: "
     input = gets.chomp
+
+    display_month('feb')
   end
 
-  def display_month(month, year)
+  def display_month(month)
 
     puts "| Su | Mo | Tu | We | Th | Fr | Sa |"
     puts "|    |    |  1 |  2 |  3 |  4 |  5 |"
@@ -35,15 +36,19 @@ class Weather911::CLI
     puts "| 20 | 21 | 22 | #{green('23')} | 24 | 25 | 26 |"
     puts "| 27 | 28 | 29 | 30 | 31 |    |    |"
     puts ''
+
+    prompt_day('feb')
   end
 
-  def prompt_day
+  def prompt_day(month)
     print "<day>: "
     input = gets.chomp
+    display_day('2')
   end
 
-  def display_day
+  def display_day(day)
     #puts  (0..24).inject('|') { |phrase, hour| "#{phrase}#{hour.to_s.rjust(2, "0")}00|"}
+    puts "\u{1F314}, 50f, 30in"
     puts "| 0000 | 0100 | 0200 | 0300 | 0400 |"
     #puts "|      |      |      |      |      |"
     puts "| 0500 | 0600 | #{red('0700')} | 0800 | 0900 |"
@@ -56,6 +61,30 @@ class Weather911::CLI
     #puts "|      |      |      |      |"
 
     puts ''
+    prompt_hour('2')
+  end
+
+  def prompt_hour(day)
+    print "<hour>: "
+    input = gets.chomp
+    display_hour('3')
+  end
+
+  def display_hour(hour)
+    #display_observation
+    #each display_incident
+    puts "Temp: 45f, Barometer: 30in, Barometer Change: .5"
+    puts "Aid 1, Medic 9, Total 10"
+    puts "Aid - 517 3rd Ave - A5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
+    puts "Medic - 2030 3rd Ave - M5, E5"
   end
 
 
