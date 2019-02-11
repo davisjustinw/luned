@@ -1,6 +1,17 @@
 #controller
 
 class Weather911::CLI
+
+  attr_accessor :breadcrumb
+
+  def initialize
+    @breadcrumb = []
+  end
+
+  def validate(input)
+
+  end
+
   def colorize(text, color_code)
     "\e[30;#{color_code}m#{text}\e[0m"
   end
@@ -14,12 +25,12 @@ class Weather911::CLI
     puts "    Follow, me...\u{1f407}"
     puts "\u{1F311} \u{1F312} \u{1F313} \u{1F314} \u{1F315} \u{1F316} \u{1F317} \u{1F318} \u{1F311}"
     puts ''
-    prompt_month
+    prompt
 
     #Weather911::API.get_incidents(ARGV[0])
   end
 
-  def prompt_month
+  def prompt
     input = ''
     until input == 'q' do
       print "<mon> <yyyy>: "
@@ -41,15 +52,6 @@ class Weather911::CLI
     prompt_day('feb')
   end
 
-  def prompt_day(month)
-    input = ''
-    until input == 'q' do
-      print "<day>: "
-      input = gets.chomp
-      display_day('2') if input !=  'q'
-    end
-  end
-
   def display_day(day)
     #puts  (0..24).inject('|') { |phrase, hour| "#{phrase}#{hour.to_s.rjust(2, "0")}00|"}
     puts "\u{1F314}, 50f, 30in"
@@ -65,17 +67,6 @@ class Weather911::CLI
     #puts "|      |      |      |      |"
 
     puts ''
-    prompt_hour('2')
-  end
-
-  def prompt_hour(day)
-
-    input = ''
-    until input == 'q' do
-      print "<hour>: "
-      input = gets.chomp
-      display_hour('3') if input !=  'q'
-    end
   end
 
   def display_hour(hour)

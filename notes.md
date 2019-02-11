@@ -27,3 +27,6 @@
 ---
 ## Feature Ideas
   * up command. Example when day is displayed <up 2> would print another day.
+  * bread crumb command
+## Blog Ideas
+  * ambiguous testing
