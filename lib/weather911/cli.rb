@@ -3,22 +3,13 @@
 class Weather911::CLI
 
   attr_accessor :breadcrumb
-
   def initialize
     @breadcrumb = []
   end
 
-  def validate(input)
-
+  def valid?(input)
+    input
   end
-
-  def colorize(text, color_code)
-    "\e[30;#{color_code}m#{text}\e[0m"
-  end
-
-  def red(text); colorize(text, "101"); end
-  def yellow(text); colorize(text, "103"); end
-  def green(text); colorize(text, "102"); end
 
   def start
     puts ''
@@ -33,7 +24,7 @@ class Weather911::CLI
   def prompt
     input = ''
     until input == 'q' do
-      print "<mon> <yyyy>: "
+      print "<yyyy> <mm> <dd> <hh24>: "
       input = gets.chomp
       display_month('feb') if input !=  'q'
     end
@@ -86,5 +77,12 @@ class Weather911::CLI
     puts "Medic - 2030 3rd Ave - M5, E5"
   end
 
+  def colorize(text, color_code)
+    "\e[30;#{color_code}m#{text}\e[0m"
+  end
+
+  def red(text); colorize(text, "101"); end
+  def yellow(text); colorize(text, "103"); end
+  def green(text); colorize(text, "102"); end
 
 end
