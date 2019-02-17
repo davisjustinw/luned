@@ -1,14 +1,11 @@
 #controller
 
 class Weather911::CLI
-
+  @@PROMPTS = ["<yyyy>", "<mm>", "<dd>", "<hr24>"]
   attr_accessor :breadcrumb
+
   def initialize
     @breadcrumb = []
-  end
-
-  def valid?(input)
-    input
   end
 
   def start
@@ -21,13 +18,46 @@ class Weather911::CLI
     #Weather911::API.get_incidents(ARGV[0])
   end
 
+  def display_prompts
+    print  "#{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
+  end
+
   def prompt
     input = ''
     until input == 'q' do
-      print "<yyyy> <mm> <dd> <hh24>: "
+      display_prompts
       input = gets.chomp
       display_month('feb') if input !=  'q'
     end
+  end
+
+  def parse_input(input)
+    input.split
+  end
+
+  def valid_year?(input)
+    input.to_i.between?(2003, Date.today.year)
+  end
+
+  def valid_month?(input)
+      int = input.to_i
+      year = @breadcrumb.first
+      min_date = Date.new(2003, 11)
+      input_date = Date.new(year, int) if int.between?(1,12)
+      input_date && input_date.between?(min_date, Date.today)
+  end
+
+  def valid_day?(input)
+    int = input.to_i
+    year, month = @breadcrumb
+    min_date = Date.new(2003, 11, 7)
+    input_date = Date.new(year, month, int) if Date.valid_date?(year, month, int)
+    input_date && input_date.between?(min_date, Date.today)
+  end
+
+  def valid_input?(input)
+    inputs = parse_input(input)
+
   end
 
   def display_month(month)
