@@ -55,10 +55,17 @@ class Weather911::CLI
     input_date && input_date.between?(min_date, Date.today)
   end
 
-  def valid_input?(input)
-    inputs = parse_input(input)
 
+
+  def up(input)
+    while input.first == '..'
+      input.shift
+      @breadcrumb.pop
+    end
+    input
   end
+
+  
 
   def display_month(month)
 

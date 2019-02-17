@@ -89,17 +89,42 @@ describe "CLI" do
       expect(cli.valid_input?('09')).to be_truthy
       expect(cli.valid_input?('26')).to be_falsey
 
-      cli.breadcrumb = ['2019', '02']
+      cli.breadcrumb = [2019, 02]
       expect(cli.valid_input?('30')).to be_falsey
       expect(cli.valid_input?('9')).to be_truthy
 
-      cli.breadcrumb = ['2019']
+      cli.breadcrumb = [2019]
       expect(cli.valid_input?('01')).to be_truthy
       expect(cli.valid_input?('bob')).to be_falsey
       expect(cli.valid_input?('2')).to be_falsey
     end
   end
 
+  describe "#up" do
+    it "takes and input array and pops an entry off breadcrumb for each .." do
+      cli = Weather911::CLI.new
+      cli.breadcrumb = [2019, 1, 29]
+      input = ['..', '28']
+      cli.up(input)
 
+      expect(cli.breadcrumb).to eq([2019, 1])
+    end
+
+    it "takes and input array does not pop if no .. front" do
+      cli = Weather911::CLI.new
+      cli.breadcrumb = [2019, 1, 29]
+      input = ['28']
+      cli.up(input)
+
+      expect(cli.breadcrumb).to eq([2019, 1, 29])
+    end
+
+    it "returns a new array minus any .. at the front" do
+      cli = Weather911::CLI.new
+      cli.breadcrumb = [2019, 1, 29]
+      input = ['..', '28']
+      expect(cli.up(input)).to eq(['28'])
+    end
+  end
 
 end
