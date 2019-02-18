@@ -1,6 +1,6 @@
 class Weather911::Prompt
   @@PROMPTS = ["<yyyy>", "<mm>", "<dd>", "<hr24>"]
-  attr_accessor :breadcrumb
+  attr_accessor :breadcrumb, :arg, :args
 
   def initialize
     @breadcrumb = []
@@ -16,20 +16,20 @@ class Weather911::Prompt
     print  "#{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
   end
 
-  def valid_year?(input)
-    input.to_i.between?(2003, Date.today.year)
+  def valid_year?
+    @arg.to_i.between?(2003, Date.today.year)
   end
 
-  def valid_month?(input)
-      int = input.to_i
+  def valid_month?
+      int = @arg.to_i
       year = @breadcrumb.first
       min_date = Date.new(2003, 11)
       input_date = Date.new(year, int) if int.between?(1,12)
       input_date && input_date.between?(min_date, Date.today)
   end
 
-  def valid_day?(input)
-    int = input.to_i
+  def valid_day?
+    int = @arg.to_i
     year, month = @breadcrumb
     min_date = Date.new(2003, 11, 7)
     input_date = Date.new(year, month, int) if Date.valid_date?(year, month, int)
@@ -44,12 +44,12 @@ class Weather911::Prompt
     Date.new(@breadcrumb[0], @breadcrumb[1], @breadcrumb[2]) < Date.today
   end
 
-  def int_from(input)
-    input.to_i if input.to_i.to_s == input
+  def int_from_arg
+    @arg.to_i if @arg.to_i.to_s == @arg
   end
 
-  def valid_hour?(input)
-    int = int_from(input)
+  def valid_hour?
+    int = int_from_arg
     year, month, day = @breadcrumb
     this_datetime = DateTime.new(year, month, day, int) if hour?(int)
     now = DateTime.now
@@ -62,24 +62,23 @@ class Weather911::Prompt
     end
   end
 
-  def up(input)
-    while input.first == '..'
-      input.shift
+  def up
+    while @args.first == '..'
+      @args.shift
       @breadcrumb.pop
     end
-    input
   end
 
-  def valid_input?(input)
+  def valid_input?
     case @breadcrumb.size
     when 0
-      valid_year?(input)
+      valid_year?
     when 1
-      valid_month?(input)
+      valid_month?
     when 2
-      valid_day?(input)
+      valid_day?
     when 3
-      valid_hour?(input)
+      valid_hour?
     else
       false
     end

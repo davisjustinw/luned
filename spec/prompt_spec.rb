@@ -19,18 +19,21 @@ describe "Prompt" do
   describe "#valid_year?" do
     it "returns true if the string is a valid year against the 911 data" do
       prompt = Weather911::Prompt.new
-      expect(prompt.valid_year?("2004")).to be_truthy
+      prompt.arg = "2004"
+      expect(prompt.valid_year?).to be_truthy
     end
 
     it "string returns falsey if not a valid year against the 911 data" do
       prompt = Weather911::Prompt.new
       next_year = Date.today.next_year.year
-      expect(prompt.valid_year?(next_year)).to be_falsey
+      prompt.arg = next_year
+      expect(prompt.valid_year?).to be_falsey
     end
 
     it "string returns falsey if not a valid year against the 911 data" do
       prompt = Weather911::Prompt.new
-      expect(prompt.valid_year?("1999")).to be_falsey
+      prompt.arg = "1999"
+      expect(prompt.valid_year?).to be_falsey
     end
   end
 
@@ -38,7 +41,8 @@ describe "Prompt" do
     it "returns true if the string is a valid month against the breadcrumb" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2018]
-      expect(prompt.valid_month?("12")).to be_truthy
+      prompt.arg = "12"
+      expect(prompt.valid_month?).to be_truthy
     end
 
     it "returns falsey if not a valid month against breadcrumb" do
@@ -46,34 +50,38 @@ describe "Prompt" do
       next_month = Date.today.next_month
       prompt.breadcrumb = []
       prompt.breadcrumb << next_month.year
-      expect(prompt.valid_month?(next_month.month.to_s)).to be_falsey
+      prompt.arg = next_month.month.to_s
+      expect(prompt.valid_month?).to be_falsey
     end
 
     it "returns falsey if not a valid month against breadcrumb" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2003]
-      expect(prompt.valid_month?("10")).to be_falsey
+      prompt.arg = "10"
+      expect(prompt.valid_month?).to be_falsey
     end
-
   end
 
   describe "#valid_day?" do
     it "returns true if the string is a valid day against the breadcrumb" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2010, 2]
-      expect(prompt.valid_day?("12")).to be_truthy
+      prompt.arg = "12"
+      expect(prompt.valid_day?).to be_truthy
     end
 
-    it "takes an array and returns false if each string can't combine to make a date" do
+    it "takes an array and returns false if each string cant combine to make a date" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2006, 2]
-      expect(prompt.valid_day?("29")).to be_falsey
+      prompt.arg = "29"
+      expect(prompt.valid_day?).to be_falsey
     end
 
     it "takes an array and returns false if not within 911 data" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [1999, 2]
-      expect(prompt.valid_day?("1")).to be_falsey
+      prompt.arg = "1"
+      expect(prompt.valid_day?).to be_falsey
     end
 
     it "returns falsey if not a valid day in the future against breadcrumb" do
@@ -82,7 +90,8 @@ describe "Prompt" do
       prompt.breadcrumb = []
       prompt.breadcrumb << next_day.year
       prompt.breadcrumb << next_day.month
-      expect(prompt.valid_month?(next_day.day.to_s)).to be_falsey
+      prompt.arg = next_day.day.to_s
+      expect(prompt.valid_day?).to be_falsey
     end
   end
 
@@ -90,13 +99,15 @@ describe "Prompt" do
     it "returns true if the string is a valid hour against the breadcrumb" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2010, 2, 12]
-      expect(prompt.valid_hour?("12")).to be_truthy
+      prompt.arg = "12"
+      expect(prompt.valid_hour?).to be_truthy
     end
 
     it "takes an array and returns false if not a valid hour" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2006, 2, 3]
-      expect(prompt.valid_hour?("29")).to be_falsey
+      prompt.arg = "29"
+      expect(prompt.valid_hour?).to be_falsey
     end
 
     it "takes an array and returns false if not a valid hour in the future" do
@@ -107,7 +118,8 @@ describe "Prompt" do
       prompt.breadcrumb << next_hour.year
       prompt.breadcrumb << next_hour.month
       prompt.breadcrumb << next_hour.day
-      expect(prompt.valid_hour?(next_hour.hour.to_s)).to be_falsey
+      prompt.arg = next_hour.hour.to_s
+      expect(prompt.valid_hour?).to be_falsey
     end
   end
 
@@ -128,17 +140,17 @@ describe "Prompt" do
     end
   end
 
-  describe "#int_from" do
+  describe "#int_from_arg" do
     it "returns integer if string converts to valid integer" do
       prompt = Weather911::Prompt.new
-
-      expect(prompt.int_from('2')).to eq(2)
+      prompt.arg = '2'
+      expect(prompt.int_from_arg).to eq(2)
     end
 
     it "return false if string doesn't convert to valid integer" do
       prompt = Weather911::Prompt.new
-
-      expect(prompt.int_from('bob')).to be_falsey
+      prompt.arg = 'bob'
+      expect(prompt.int_from_arg).to be_falsey
     end
   end
 
@@ -147,17 +159,24 @@ describe "Prompt" do
       prompt = Weather911::Prompt.new
 
       prompt.breadcrumb = [2019, 01, 29]
-      expect(prompt.valid_input?('9')).to be_truthy
-      expect(prompt.valid_input?('26')).to be_falsey
+      prompt.arg = '9'
+      expect(prompt.valid_input?).to be_truthy
+      prompt.arg = '26'
+      expect(prompt.valid_input?).to be_falsey
 
       prompt.breadcrumb = [2019, 02]
-      expect(prompt.valid_input?('30')).to be_falsey
-      expect(prompt.valid_input?('8')).to be_truthy
+      prompt.arg = '30'
+      expect(prompt.valid_input?).to be_falsey
+      prompt.arg = '8'
+      expect(prompt.valid_input?).to be_truthy
 
       prompt.breadcrumb = [2019]
-      expect(prompt.valid_input?('01')).to be_truthy
-      expect(prompt.valid_input?('bob')).to be_falsey
-      expect(prompt.valid_input?('2')).to be_truthy
+      prompt.arg = '01'
+      expect(prompt.valid_input?).to be_truthy
+      prompt.arg = 'bob'
+      expect(prompt.valid_input?).to be_falsey
+      prompt.arg = '2'
+      expect(prompt.valid_input?).to be_truthy
     end
   end
 
@@ -165,8 +184,8 @@ describe "Prompt" do
     it "takes and input array and pops an entry off breadcrumb for each .." do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2019, 1, 29]
-      input = ['..', '28']
-      prompt.up(input)
+      prompt.args = ['..', '28']
+      prompt.up
 
       expect(prompt.breadcrumb).to eq([2019, 1])
     end
@@ -174,17 +193,18 @@ describe "Prompt" do
     it "takes and input array does not pop if no .. front" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2019, 1, 29]
-      input = ['28']
-      prompt.up(input)
+      prompt.args = ['28']
+      prompt.up
 
       expect(prompt.breadcrumb).to eq([2019, 1, 29])
     end
 
-    it "returns a new array minus any .. at the front" do
+    it "shifts args minus any .. at the front" do
       prompt = Weather911::Prompt.new
       prompt.breadcrumb = [2019, 1, 29]
-      input = ['..', '28']
-      expect(prompt.up(input)).to eq(['28'])
+      prompt.args = ['..', '28']
+      prompt.up
+      expect(prompt.args).to eq(['28'])
     end
   end
 
