@@ -6,6 +6,7 @@ class Weather911::CLI
 
   def initialize
     @breadcrumb = []
+    @inputs = []
   end
 
   def start
@@ -27,7 +28,10 @@ class Weather911::CLI
     until input == 'q' do
       display_prompts
       input = gets.chomp
-      display_month('feb') if input !=  'q'
+      if input !=  'q'
+        parse_input(input)
+        display_month('feb')
+      end
     end
   end
 
@@ -55,11 +59,30 @@ class Weather911::CLI
     input_date && input_date.between?(min_date, Date.today)
   end
 
+  def hour?(int)
+    int.between?(0,23) if int
+  end
+
+  def before_today?
+    Date.new(@breadcrumb[0], @breadcrumb[1], @breadcrumb[2]) < Date.today
+  end
+
+  def integer(input)
+    input.to_i if input.to_i.to_s == input
+  end
+
   def valid_hour?(input)
-      int = input.to_i
-      year, month, day = @breadcrumb
-      input_date = DateTime.new(year, month, day, int) if int.between?(0, 23)
-      input_date && input_date.between?(min_date, DateTime.now)
+    int = integer(input)
+    year, month, day = @breadcrumb
+    this_datetime = DateTime.new(year, month, day, int) if hour?(int)
+    now = DateTime.now
+    if this_datetime && this_datetime.to_date == now.to_date && int < now.hour
+      true
+    elsif this_datetime && this_datetime.to_date < now.to_date
+      true
+    else
+      false
+    end
   end
 
   def up(input)
@@ -81,7 +104,7 @@ class Weather911::CLI
     when 3
       valid_hour?(input)
     else
-
+      false
     end
   end
 

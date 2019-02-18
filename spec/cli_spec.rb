@@ -117,22 +117,53 @@ describe "CLI" do
     end
   end
 
+  describe "#before_today?" do
+    it "return true if breadcrumb date is before today" do
+      cli = Weather911::CLI.new
+      cli.breadcrumb = [2019, 01, 29]
+
+      expect(cli.before_today?).to be_truthy
+    end
+
+    it "return false if breadcrumb date is after today" do
+      cli = Weather911::CLI.new
+      tomorrow = Date.today.next_day
+      cli.breadcrumb = [tomorrow.year, tomorrow.month, tomorrow.day]
+
+      expect(cli.before_today?).to be_falsey
+    end
+  end
+
+  describe "#integer" do
+    it "returns integer if string converts to valid integer" do
+      cli = Weather911::CLI.new
+
+      expect(cli.integer('2')).to eq(2)
+    end
+
+    it "return false if string doesn't convert to valid integer" do
+      cli = Weather911::CLI.new
+
+      expect(cli.integer('bob')).to be_falsey
+    end
+  end
+
   describe "#valid_input?" do
     it "takes a string and checks against the breadcrumb array for valid input" do
       cli = Weather911::CLI.new
 
       cli.breadcrumb = [2019, 01, 29]
-      expect(cli.valid_input?('09')).to be_truthy
+      expect(cli.valid_input?('9')).to be_truthy
       expect(cli.valid_input?('26')).to be_falsey
 
       cli.breadcrumb = [2019, 02]
       expect(cli.valid_input?('30')).to be_falsey
-      expect(cli.valid_input?('9')).to be_truthy
+      expect(cli.valid_input?('8')).to be_truthy
 
       cli.breadcrumb = [2019]
       expect(cli.valid_input?('01')).to be_truthy
       expect(cli.valid_input?('bob')).to be_falsey
-      expect(cli.valid_input?('2')).to be_falsey
+      expect(cli.valid_input?('2')).to be_truthy
     end
   end
 
