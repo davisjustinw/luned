@@ -30,7 +30,8 @@ describe "CLI" do
 
     it "string returns falsey if not a valid year against the 911 data" do
       cli = Weather911::CLI.new
-      expect(cli.valid_year?("Bob")).to be_falsey
+      next_year = Date.today.next_year.year
+      expect(cli.valid_year?(next_year)).to be_falsey
     end
 
     it "string returns falsey if not a valid year against the 911 data" do
@@ -48,9 +49,10 @@ describe "CLI" do
 
     it "returns falsey if not a valid month against breadcrumb" do
       cli = Weather911::CLI.new
-      next_month = Date.today.next_month.month.to_s
-      cli.breadcrumb = [2019]
-      expect(cli.valid_month?(next_month)).to be_falsey
+      next_month = Date.today.next_month
+      cli.breadcrumb = []
+      cli.breadcrumb << next_month.year
+      expect(cli.valid_month?(next_month.month.to_s)).to be_falsey
     end
 
     it "returns falsey if not a valid month against breadcrumb" do
@@ -78,6 +80,40 @@ describe "CLI" do
       cli = Weather911::CLI.new
       cli.breadcrumb = [1999, 2]
       expect(cli.valid_day?("1")).to be_falsey
+    end
+
+    it "returns falsey if not a valid day in the future against breadcrumb" do
+      cli = Weather911::CLI.new
+      next_day = Date.today.next_day
+      cli.breadcrumb = []
+      cli.breadcrumb << next_day.year
+      cli.breadcrumb << next_day.month
+      expect(cli.valid_month?(next_day.day.to_s)).to be_falsey
+    end
+  end
+
+  describe "#valid_hour?" do
+    it "returns true if the string is a valid hour against the breadcrumb" do
+      cli = Weather911::CLI.new
+      cli.breadcrumb = [2010, 2, 12]
+      expect(cli.valid_hour?("12")).to be_truthy
+    end
+
+    it "takes an array and returns false if not a valid hour" do
+      cli = Weather911::CLI.new
+      cli.breadcrumb = [2006, 2, 3]
+      expect(cli.valid_hour?("29")).to be_falsey
+    end
+
+    it "takes an array and returns false if not a valid hour in the future" do
+      cli = Weather911::CLI.new
+      now = DateTime.now
+      next_hour = DateTime.new(now.year, now.month, now.day, (now.hour+1))
+      cli.breadcrumb = []
+      cli.breadcrumb << next_hour.year
+      cli.breadcrumb << next_hour.month
+      cli.breadcrumb << next_hour.day
+      expect(cli.valid_hour?(next_hour.hour.to_s)).to be_falsey
     end
   end
 

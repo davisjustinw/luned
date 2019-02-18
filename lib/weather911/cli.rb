@@ -55,7 +55,12 @@ class Weather911::CLI
     input_date && input_date.between?(min_date, Date.today)
   end
 
-
+  def valid_hour?(input)
+      int = input.to_i
+      year, month, day = @breadcrumb
+      input_date = DateTime.new(year, month, day, int) if int.between?(0, 23)
+      input_date && input_date.between?(min_date, DateTime.now)
+  end
 
   def up(input)
     while input.first == '..'
@@ -65,7 +70,20 @@ class Weather911::CLI
     input
   end
 
-  
+  def valid_input?(input)
+    case @breadcrumb.size
+    when 0
+      valid_year?(input)
+    when 1
+      valid_month?(input)
+    when 2
+      valid_day?(input)
+    when 3
+      valid_hour?(input)
+    else
+
+    end
+  end
 
   def display_month(month)
 
