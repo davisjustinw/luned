@@ -11,11 +11,22 @@ class Weather911::API
   end
 
   def get_month(breadcrumb)
-    #$select=date_trunc_ymd(datetime) as day, count(*)&$where=date between '2014-01'&$group=day
-    query = URI.encode("$query=SELECT date_extract_d(datetime) as day, count(*) WHERE date_trunc_ym(datetime) = '#{breadcrumb[0]}-#{breadcrumb[1]}-01T00:00:00.000' GROUP BY day ORDER BY day")
+    select = "SELECT date_extract_d(datetime) as day, count(*)"
+    where = "WHERE date_trunc_ym(datetime) = '#{breadcrumb[0]}-#{breadcrumb[1]}-01T00:00:00.000'"
+    group = "GROUP BY day ORDER BY day"
+    query = URI.encode("$query=#{select} #{where} #{group}")
     parameter = "#{@seattle_url}#{query}&#{@token_parameter}"
-    response = HTTParty.get("#{@seattle_url}#{query}")
-    puts parameter
-    puts response
+    HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
+
+  def get_day_ems(breadcrumb)
+    select = "SELECT date_extract_hh(datetime) as hour, count(*)"
+    where = "WHERE date_trunc_ymd(datetime) = '#{breadcrumb[0]}-#{breadcrumb[1]}-#{breadcrumb[2]}T00:00:00.000'"
+    group = "GROUP BY hour ORDER BY hour"
+    query = URI.encode("$query=#{select} #{where} #{group}")
+    parameter = "#{@seattle_url}#{query}&#{@token_parameter}"
+    puts parameter
+    HTTParty.get("#{@seattle_url}#{query}").parsed_response
+  end
+
 end
