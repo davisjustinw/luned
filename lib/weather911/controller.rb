@@ -17,7 +17,6 @@ class Weather911::Controller
     puts ''
     prompt
 
-    #Weather911::API.get_incidents(ARGV[0])
   end
 
   def prompt
