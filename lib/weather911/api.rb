@@ -28,4 +28,15 @@ class Weather911::API
     HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
 
+  def get_hour(breadcrumb)
+    select = "SELECT datetime, type, address"
+    where = "WHERE date_trunc_ymd(datetime) ="
+    filter = "'#{breadcrumb[0]}-#{breadcrumb[1]}-#{breadcrumb[2]}T00:00:00.000'"
+    andfilter = "AND date_extract_hh(datetime) = #{breadcrumb[3]}"
+    group = "ORDER BY datetime"
+    query = URI.encode("$query=#{select} #{where} #{filter} #{andfilter} #{group}")
+    parameter = "#{@seattle_url}#{query}&#{@token_parameter}"
+    HTTParty.get("#{@seattle_url}#{query}").parsed_response
+  end
+
 end
