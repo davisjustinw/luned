@@ -16,6 +16,14 @@ describe "Day" do
     end
   end
 
+  describe ".delete_all" do
+    it ".get_all return an empty array after call" do
+      4.times {Weather911::Day.create(Date.today.year, Date.today.month, Date.today.day)}
+      Weather911::Day.delete_all
+      expect(Weather911::Day.get_all).to eq([])
+    end
+  end
+
   describe "#month" do
     it "returns the three letter string name of the month" do
       obj = Weather911::Day.create('1999', '12', '1')

@@ -1,4 +1,8 @@
-class Weather911::Scraper
+class Weather911::API
+
+  def initialize
+    
+  end
 
   def self.get_incidents(token = nil)
     if token

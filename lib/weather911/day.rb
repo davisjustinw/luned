@@ -1,10 +1,12 @@
 
 class Weather911::Day
-  attr_accessor :this_date
+  attr_accessor :this_date, :incidents, :observations
   @@all = []
 
   def initialize(year, month, day)
       @this_date = Date.new(year.to_i, month.to_i, day.to_i)
+      @incidents = []
+      @observations = []
       add_day
   end
 
@@ -22,6 +24,10 @@ class Weather911::Day
 
   def self.get_all
     @@all
+  end
+
+  def self.delete_all
+    @@all.clear
   end
 
   def days_in_month

@@ -16,20 +16,22 @@ class Weather911::Prompt
     print  "#{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
   end
 
-  def valid_year?
-    @arg.to_i.between?(2003, Date.today.year)
+  def quit?
+    true if arg.downcase == 'q'
   end
 
-  def valid_month?
-      int = @arg.to_i
+  def valid_year?(int)
+    int.between?(2003, Date.today.year)
+  end
+
+  def valid_month?(int)
       year = @breadcrumb.first
       min_date = Date.new(2003, 11)
       input_date = Date.new(year, int) if int.between?(1,12)
       input_date && input_date.between?(min_date, Date.today)
   end
 
-  def valid_day?
-    int = @arg.to_i
+  def valid_day?(int)
     year, month = @breadcrumb
     min_date = Date.new(2003, 11, 7)
     input_date = Date.new(year, month, int) if Date.valid_date?(year, month, int)
@@ -44,12 +46,21 @@ class Weather911::Prompt
     Date.new(@breadcrumb[0], @breadcrumb[1], @breadcrumb[2]) < Date.today
   end
 
-  def int_from_arg
-    @arg.to_i if @arg.to_i.to_s == @arg
+  def int_from(arg)
+    arg.to_i if arg.to_i.to_s == arg
   end
 
-  def valid_hour?
-    int = int_from_arg
+  def submit_args
+    up
+    @args.each do |arg|
+        int_from(arg).tap do |int|
+          valid_arg?(int) ? @breadcrumb << int : break
+        end
+    end
+    @args.clear
+  end
+
+  def valid_hour?(int)
     year, month, day = @breadcrumb
     this_datetime = DateTime.new(year, month, day, int) if hour?(int)
     now = DateTime.now
@@ -69,16 +80,16 @@ class Weather911::Prompt
     end
   end
 
-  def valid_input?
+  def valid_arg?(arg)
     case @breadcrumb.size
     when 0
-      valid_year?
+      valid_year?(arg)
     when 1
-      valid_month?
+      valid_month?(arg)
     when 2
-      valid_day?
+      valid_day?(arg)
     when 3
-      valid_hour?
+      valid_hour?(arg)
     else
       false
     end
