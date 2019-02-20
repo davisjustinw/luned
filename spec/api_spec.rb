@@ -13,10 +13,12 @@ describe "API" do
   end
 
   describe "#get_day_ems" do
-    api = Weather911::API.new
-    breadcrumb = [2019, 2, 1]
-    response = api.get_day_ems(breadcrumb)
+    it "receives array with y,m,d returns array of hashes with count and hour" do
+      api = Weather911::API.new
+      breadcrumb = [2019, 2, 1]
+      response = api.get_day_ems(breadcrumb)
 
-    expect(response[0]).to eq({"count"=>"323", "day"=>"1"})
+      expect(response[0]).to eq({"count"=>"9", "hour"=>"0"})
+    end
   end
 end

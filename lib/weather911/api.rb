@@ -25,7 +25,6 @@ class Weather911::API
     group = "GROUP BY hour ORDER BY hour"
     query = URI.encode("$query=#{select} #{where} #{group}")
     parameter = "#{@seattle_url}#{query}&#{@token_parameter}"
-    puts parameter
     HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
 
