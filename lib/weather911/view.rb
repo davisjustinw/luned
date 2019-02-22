@@ -7,7 +7,7 @@ class Weather911::View
 
   end
   def month(month)
-
+    calendar = ["| Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
     #puts "| Su | Mo | Tu | We | Th | Fr | Sa |"
     #puts "|    |    |  1 |  2 |  3 |  4 |  5 |"
     #puts "|  6 |  7 | #{red(' 8')} |  9 | 10 | 11 | 12 |"
@@ -16,8 +16,9 @@ class Weather911::View
     #puts "| 27 | 28 | 29 | 30 | 31 |    |    |"
     #puts ''
 
-    
+
   end
+
 
   def day(day)
     #puts  (0..24).inject('|') { |phrase, hour| "#{phrase}#{hour.to_s.rjust(2, "0")}00|"}

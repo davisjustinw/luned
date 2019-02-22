@@ -23,13 +23,18 @@ class Weather911::Month
     @days << day
   end
 
-  def first_of_month
+  def first_day
     @this_date - (@this_date.day - 1)
   end
-  
-  def weekday(day)
-    (first_of_month + (day - 1)).strftime('%w').to_i
+
+  def last_int
+    @this_date.day
   end
+
+  def weekday(day)
+    (first_day + (day - 1)).strftime('%w').to_i
+  end
+
 
   def month
     @this_date.strftime('%b')
