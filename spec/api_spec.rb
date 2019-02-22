@@ -21,4 +21,15 @@ describe "API" do
       expect(response[0]).to eq({"count"=>"9", "hour"=>"0"})
     end
   end
+
+  describe "#get_hour_ems" do
+    it "receives array with y,m,d,h returns array of " do
+      api = Weather911::API.new
+      breadcrumb = [2019, 2, 1, 0]
+      response = api.get_hour_ems(breadcrumb)
+
+      expect(response[0]).to eq({"address"=>"14th Av / E Alder St", "datetime"=>"2019-02-01T00:02:00.000", "type"=>"Aid Response"})
+    end
+  end
+
 end

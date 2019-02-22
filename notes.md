@@ -5,8 +5,8 @@
   * stitch it up
 ---
 ## Sites
-  * Seattle 911 - https://opendata.socrata.com/resource/4fng-4fdn.json
-  * Wunderground - https://www.wunderground.com/history/daily/us/wa/seattle-boeing/KBFI/date/2019-2-1
+  * Seattle 911 newer API https://dev.socrata.com/foundry/data.seattle.gov/grwu-wqtk
+  * Darksky https://api.darksky.net/forecast/
 ---
 ## Description
   * Greet User
@@ -20,7 +20,7 @@
 ## Domain
   cli - controller (maybe pull out view?)
     view
-    prompt 
+    prompt
     api - pulls data from sites and initializes object
     day - incidents, observations
       incident - id, unit, type, address
@@ -31,3 +31,7 @@
   * bread crumb command
 ## Blog Ideas
   * ambiguous testing
+
+## Notes
+
+JSON.pretty_generate(response)

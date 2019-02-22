@@ -7,6 +7,7 @@ require "soda/client"
 require "date"
 require "dotenv/load"
 require "uri"
+require "json"
 
 require_relative "weather911/version"
 require_relative "weather911/controller"
