@@ -29,11 +29,7 @@ class Weather911::Day
   def self.delete_all
     @@all.clear
   end
-
-  def days_in_month
-    Date.new(@this_date.year, @this_date.month, -1).day
-  end
-
+  
   def self.valid?(year, month, day)
     Date.valid_date?(year.to_i, month.to_i, day.to_i)
   end

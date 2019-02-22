@@ -40,12 +40,5 @@ describe "Day" do
     end
   end
 
-  describe "#days_in_month" do
-    it "returns the number of days in the month" do
-      obj = Weather911::Day.new('2004', '12', '2')
-      expect(obj.days_in_month).to eq(31)
-    end
-  end
-
 
 end

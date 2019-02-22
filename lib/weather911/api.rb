@@ -26,6 +26,13 @@ class Weather911::API
     HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
 
+  def create_month(breadcrumb)
+    response = get_month(breadcrumb)
+    month = Weather911::Month.new(breadcrumb[0], breadcrumb[1])
+    response.each { |sum| month.add_sum(sum) }
+    month
+  end
+
   def get_day_ems(breadcrumb)
     select = "SELECT date_extract_hh(datetime) as hour, count(*)"
     where = "WHERE date_trunc_ymd(datetime) = '#{breadcrumb[0]}-#{breadcrumb[1]}-#{breadcrumb[2]}T00:00:00.000'"

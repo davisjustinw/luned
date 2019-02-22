@@ -12,6 +12,17 @@ describe "API" do
     end
   end
 
+  describe "#create_month" do
+    it "calls seattle api and builds a month object populated with incident counts" do
+      api = Weather911::API.new
+      breadcrumb = [2019, 1]
+      month = api.create_month(breadcrumb)
+
+      expect(month).to be_an_instance_of(Weather911::Month)
+      expect(month.incident_sums.size).to eq(31)
+    end
+  end
+
   describe "#get_day_ems" do
     it "receives array with y,m,d returns array of hashes with count and hour" do
       api = Weather911::API.new
