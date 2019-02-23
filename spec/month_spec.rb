@@ -30,6 +30,31 @@ describe "Month" do
      end
    end
 
+   describe "#last_int" do
+     it "return a Date representing the first day of the month" do
+       month = Weather911::Month.new(2019,2)
+       expect(month.last_int).to eq(28)
+     end
+   end
+
+   describe "#first_day" do
+     it "return a Date representing the first day of the month" do
+       month = Weather911::Month.new(2019,2)
+       first = Date.new(2019,2,1)
+
+       expect(month.first_day).to eq(first)
+     end
+   end
+
+   describe "#minmax_count" do
+     it "return the lowest and the highest count from incident_sums" do
+       month = Weather911::Month.new(2019, 2)
+       month.incident_sums = [{"count"=>"221", "day"=>"1", "weekday"=>"2"}, {"count"=>"248", "day"=>"2", "weekday"=>"3"}, {"count"=>"291", "day"=>"3", "weekday"=>"4"}, {"count"=>"228", "day"=>"4", "weekday"=>"5"}, {"count"=>"319", "day"=>"5", "weekday"=>"6"}]
+
+       expect(month.minmax_count).to eq([221,319])
+     end
+   end
+
    describe "#month" do
      it "returns the three letter string name of the month" do
        obj = Weather911::Month.create('1999', '12')

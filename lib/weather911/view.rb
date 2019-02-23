@@ -8,15 +8,13 @@ class Weather911::View
   end
   def month(month)
     calendar = ["| Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
-    #puts "| Su | Mo | Tu | We | Th | Fr | Sa |"
-    #puts "|    |    |  1 |  2 |  3 |  4 |  5 |"
-    #puts "|  6 |  7 | #{red(' 8')} |  9 | 10 | 11 | 12 |"
-    #puts "| 13 | 14 | 15 | 16 | 17 | 18 | 19 |"
-    #puts "| 20 | 21 | 22 | #{green('23')} | 24 | 25 | 26 |"
-    #puts "| 27 | 28 | 29 | 30 | 31 |    |    |"
-    #puts ''
-
-
+    calendar += Array.new(month.weekday(1), "|    ")
+    month.incident_sums.each do |hash|
+      day = add_heat(hash["day"].rjust(2,"0"),hash["count"].to_i,month.minmax_count)
+      calendar << "| #{day} "
+      calendar << "| \n " if hash["weekday"].to_i == 6
+    end
+    calendar.each { |x| print x }
   end
 
 
@@ -52,6 +50,21 @@ class Weather911::View
     puts "Medic - 2030 3rd Ave - M5, E5"
     puts "Medic - 2030 3rd Ave - M5, E5"
     puts "Medic - 2030 3rd Ave - M5, E5"
+  end
+
+  def moon(phase)
+    icons = ["\u{1F311}", "\u{1F312}", "\u{1F313}", "\u{1F314}", "\u{1F315}", "\u{1F316}", "\u{1F317}", "\u{1F318}"]
+
+  end
+
+  def add_heat(text, value, minmax)
+    min, max = minmax
+    colors = ['16','52','88','124','160','196']
+    section = (max - min) / 6.0
+    color_hash = {}
+    colors.each.with_index(1) {|x, i| color_hash[(i * section) + min] = x}
+    color_code = color_hash.detect { |x| value <= x.first }.last
+    "\e[48;5;#{color_code}m#{text}\e[0m"
   end
 
   def colorize(text, color_code)

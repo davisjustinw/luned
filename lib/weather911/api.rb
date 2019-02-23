@@ -18,9 +18,10 @@ class Weather911::API
   end
 
   def get_month(breadcrumb)
-    select = "SELECT date_extract_d(datetime) as day, count(*)"
+    #select = "SELECT date_extract_d(datetime) as day, date_extract_dow(datetime) as weekday, count(*)"
+    select = "SELECT count(*), date_extract_d(datetime) as day, date_extract_dow(datetime) as weekday"
     where = "WHERE date_trunc_ym(datetime) = '#{breadcrumb[0]}-#{breadcrumb[1]}-01T00:00:00.000'"
-    group = "GROUP BY day ORDER BY day"
+    group = "GROUP BY day, weekday ORDER BY day"
     query = URI.encode("$query=#{select} #{where} #{group}")
     parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
     HTTParty.get("#{@seattle_url}#{query}").parsed_response

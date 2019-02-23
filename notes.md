@@ -31,6 +31,7 @@
   * bread crumb command
 ## Blog Ideas
   * ambiguous testing
+  * zen and the art of code re-use.  the story of round_to
 
 ## Notes
 

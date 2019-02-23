@@ -15,6 +15,15 @@ class Weather911::Month
     @incident_sums << sum
   end
 
+  def average_sum
+    incident_sums.inject(0.0) { |sum, day| sum += day["count"].to_f } / incident_sums.size
+  end
+
+  def minmax_count
+    min, max = incident_sums.minmax_by { |day| day["count"].to_i }
+    minmax = min["count"].to_i, max["count"].to_i
+  end
+
   def add_month
     @@all << self
   end
@@ -24,7 +33,7 @@ class Weather911::Month
   end
 
   def first_day
-    @this_date - (@this_date.day - 1)
+    Date.new(@this_date.year, @this_date.month, 1)
   end
 
   def last_int
