@@ -1,17 +1,20 @@
 
 class Weather911::Day
-  attr_accessor :this_date, :incidents, :observations
+  attr_accessor :observed, :hours
   @@all = []
 
   def initialize(year, month, day)
       @this_date = Date.new(year.to_i, month.to_i, day.to_i)
-      @incidents = []
-      @observations = []
+      @hours = []
       add_day
   end
 
   def add_day
     @@all << self
+  end
+
+  def add_hour(hour)
+    @hours << hour 
   end
 
   def month
@@ -29,7 +32,7 @@ class Weather911::Day
   def self.delete_all
     @@all.clear
   end
-  
+
   def self.valid?(year, month, day)
     Date.valid_date?(year.to_i, month.to_i, day.to_i)
   end

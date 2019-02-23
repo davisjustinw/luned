@@ -43,6 +43,20 @@ class Weather911::API
     HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
 
+  def get_day_weather(breadcrumb)
+    location = "47.609400,-122.336345"
+    time = DateTime.new(breadcrumb[0], breadcrumb[1], breadcrumb[2]).to_time.to_i.to_s
+    url = "#{@weather_url}#{@weather_token}/#{location},#{time}?exclude=currently,flags,offset,hourly"
+    HTTParty.get(url).parsed_response["daily"]["data"].first
+  end
+
+  def create_day(breadcrumb)
+    Weather911::Day.new(breadcrumb[0], breadcrumb[1]).tap do |day|
+      day.observation = get_day_weather(breadcrumb)
+
+    end
+  end
+
   def get_hour_ems(breadcrumb)
     select = "SELECT datetime, type, address"
     where = "WHERE date_trunc_ymd(datetime) ="
@@ -52,13 +66,6 @@ class Weather911::API
     query = URI.encode("$query=#{select} #{where} #{filter} #{andfilter} #{group}")
     parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
     HTTParty.get("#{@seattle_url}#{query}").parsed_response
-  end
-
-  def get_day_weather(breadcrumb)
-    location = "47.609400,-122.336345"
-    time = DateTime.new(breadcrumb[0], breadcrumb[1], breadcrumb[2]).to_time.to_i.to_s
-    url = "#{@weather_url}#{@weather_token}/#{location},#{time}?exclude=currently,flags,offset,hourly"
-    HTTParty.get(url).parsed_response
   end
 
   def get_hour_weather(breadcrumb)
