@@ -13,6 +13,24 @@ describe "View" do
     end
   end
 
+  describe "#moon" do
+    it "return lunar ansi icon for exact phase of moon" do
+      view = Weather911::View.new
+      phases = [0,0.125,0.25,0.375,0.5,0.625,0.75,0.825,0.95]
+
+      phases.each { |x| print view.moon(x)}
+      puts ''
+    end
+
+    it "return lunar ansi icon for exact phase of moon" do
+      view = Weather911::View.new
+      phases = [0.01,0.126,0.26,0.374,0.52,0.624,0.76,0.824,0.96,1]
+
+      phases.each { |x| print view.moon(x)}
+      puts ''
+    end
+  end
+
   describe "#month" do
     it "prints the month with hotness" do
       month = Weather911::Month.new(2019,1)
