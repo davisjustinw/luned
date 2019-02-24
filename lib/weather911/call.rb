@@ -1,4 +1,4 @@
-class Weather911::Incident
+class Weather911::Call
   attr_accessor :type, :address
 
   def initialize(time, address, type)

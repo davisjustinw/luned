@@ -30,8 +30,11 @@
   * up command. Example when day is displayed <up 2> would print another day.
   * bread crumb command
 ## Blog Ideas
-  * ambiguous testing? 
-  * zen and the art of code re-use.  the story of round_to
+  * ambiguous testing?
+  * zen and the art of code re-use.  the story of round_to and readability
+  * splat breadcrumbs and readability
+  * reluctant to build objects but lead to greater readability
+  * too much in place leads to snaggle code
 
 ## Notes
 

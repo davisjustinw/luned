@@ -34,18 +34,7 @@ class Weather911::API
     month_obj
   end
 
-=begin
-  def get_day_ems(year, month, day)
-    select = "SELECT date_extract_hh(datetime) as hour, count(*)"
-    where = "WHERE date_trunc_ymd(datetime) = '#{year}-#{month}-#{day}T00:00:00.000'"
-    group = "GROUP BY hour ORDER BY hour"
-    query = URI.encode("$query=#{select} #{where} #{group}")
-    parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
-    HTTParty.get("#{@seattle_url}#{query}").parsed_response
-  end
-=end
-
-  def get_day_ems(year, month, day)
+  def get_day_calls(year, month, day)
     select = "SELECT datetime, address, type "
     where = "WHERE date_trunc_ymd(datetime) = '#{year}-#{month}-#{day}T00:00:00.000'"
     group = "ORDER BY datetime"
@@ -57,8 +46,8 @@ class Weather911::API
   def get_day_weather(year, month, day)
     location = "47.609400,-122.336345"
     time = DateTime.new(year, month, day).to_time.to_i.to_s
-    url = "#{@weather_url}#{@weather_token}/#{location},#{time}?exclude=currently,flags,offset,hourly"
-    HTTParty.get(url).parsed_response["daily"]["data"].first
+    url = "#{@weather_url}#{@weather_token}/#{location},#{time}?exclude=currently,flags,offset"
+    HTTParty.get(url).parsed_response
   end
 
   def create_day(year, month, day)
@@ -67,27 +56,9 @@ class Weather911::API
     #add weather observation
     #add counts
     Weather911::Day.new(year, month, day).tap do |day|
-      day.observation = get_day_weather(year, month, day)
-      counts = get_day_ems(year, month, day)
+      weather = get_day_weather(year, month, day)
+      calls = get_day_calls(year, month, day)
     end
-  end
-
-  def get_hour_ems(year, month, day, hour)
-    select = "SELECT datetime, type, address"
-    where = "WHERE date_trunc_ymd(datetime) ="
-    filter = "'#{year}-#{month}-#{day}T00:00:00.000'"
-    andfilter = "AND date_extract_hh(datetime) = #{hour}"
-    group = "ORDER BY datetime"
-    query = URI.encode("$query=#{select} #{where} #{filter} #{andfilter} #{group}")
-    parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
-    HTTParty.get("#{@seattle_url}#{query}").parsed_response
-  end
-
-  def get_hour_weather(year, month, day, hour)
-    location = "47.609400,-122.336345"
-    time = DateTime.new(year, month, day, hour).to_time.to_i.to_s
-    url = "#{@weather_url}#{@weather_token}/#{location},#{time}?exclude=flags,offset,daily,hourly"
-    HTTParty.get(url).parsed_response
   end
 
 end

@@ -1,6 +1,6 @@
 
 class Weather911::Day
-  attr_accessor :observed
+  attr_accessor :summary, :calls, :observations
   @@all = []
 
   def initialize(year, month, day)
@@ -10,10 +10,6 @@ class Weather911::Day
 
   def add_day
     @@all << self
-  end
-
-  def hours
-    Weather911::Hour.in_day(year, month, day)
   end
 
   def year
