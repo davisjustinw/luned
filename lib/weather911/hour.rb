@@ -25,15 +25,15 @@ class Weather911::Hour
     @datetime.day
   end
 
+  def is
+    @datetime.hour
+  end
+
   def self.in_day(year, month, day)
     year, month, day = year.to_i, month.to_i, day.to_i
     all.select do |hour|
       year == hour.year && month == hour.month && day == hour.day
     end
-  end
-
-  def is
-    @datetime.hour 
   end
 
   def add_incident(incident)

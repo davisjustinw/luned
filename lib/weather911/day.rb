@@ -24,9 +24,9 @@ class Weather911::Day
     @datetime.month
   end
 
-  def day
+  def is
     @datetime.day
-  end 
+  end
 
   def self.get_all
     @@all

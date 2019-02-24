@@ -30,14 +30,25 @@ class Weather911::API
   def create_month(year, month)
     response = get_month(year, month)
     month_obj = Weather911::Month.new(year, month)
-    response.each { |sum| month_obj.add_sum(sum) }
+    response.each { |count| month_obj.add_count(count) }
     month_obj
   end
 
+=begin
   def get_day_ems(year, month, day)
     select = "SELECT date_extract_hh(datetime) as hour, count(*)"
     where = "WHERE date_trunc_ymd(datetime) = '#{year}-#{month}-#{day}T00:00:00.000'"
     group = "GROUP BY hour ORDER BY hour"
+    query = URI.encode("$query=#{select} #{where} #{group}")
+    parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
+    HTTParty.get("#{@seattle_url}#{query}").parsed_response
+  end
+=end
+
+  def get_day_ems(year, month, day)
+    select = "SELECT datetime, address, type "
+    where = "WHERE date_trunc_ymd(datetime) = '#{year}-#{month}-#{day}T00:00:00.000'"
+    group = "ORDER BY datetime"
     query = URI.encode("$query=#{select} #{where} #{group}")
     parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
     HTTParty.get("#{@seattle_url}#{query}").parsed_response
@@ -52,9 +63,12 @@ class Weather911::API
 
   def create_day(year, month, day)
     #needs work
+    #create Day
+    #add weather observation
+    #add counts
     Weather911::Day.new(year, month, day).tap do |day|
       day.observation = get_day_weather(year, month, day)
-      get_day_ems(year, month, day)
+      counts = get_day_ems(year, month, day)
     end
   end
 

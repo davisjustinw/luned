@@ -1,12 +1,12 @@
 class Weather911::Month
 
-  attr_accessor :this_date, :incident_sums
+  attr_accessor :this_date, :counts
 
   @@all = []
 
   def initialize(year, month)
       @datetime = DateTime.new(year.to_i, month.to_i, -1)
-      @incident_sums = []
+      @counts = []
       @days = []
       add_month
   end
@@ -15,16 +15,16 @@ class Weather911::Month
     @@all << self
   end
 
-  def add_sum(sum)
-    @incident_sums << sum
+  def add_count(count)
+    @counts << count
   end
 
   def minmax_count
-    min, max = incident_sums.minmax_by { |day| day["count"].to_i }
+    min, max = counts.minmax_by { |day| day["count"].to_i }
     minmax = min["count"].to_i, max["count"].to_i
   end
 
-  def self.get_all
+  def self.all
     @@all
   end
 
