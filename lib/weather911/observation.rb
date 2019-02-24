@@ -8,21 +8,13 @@ class Weather911::Observation
     @@all << self
   end
 
-  def year
-    @datetime.year
-  end
-
-  def month
-    @datetime.month
-  end
-
-  def day
-    @datetime.day
+  def date_string
+    @datetime.strftime("%Y %m %d")
   end
 
   def self.during(date)
     @@all.select do |obs|
-      obs.year == date.year && obs.month == date.month && obs.year == date.year
+      obs.date_string == date.strftime("%Y %m %d")
     end
   end
 
