@@ -1,11 +1,10 @@
 
 class Weather911::Day
-  attr_accessor :observed, :hours
+  attr_accessor :observed
   @@all = []
 
   def initialize(year, month, day)
-      @date = Date.new(year.to_i, month.to_i, day.to_i)
-      @hours = []
+      @datetime = DateTime.new(year.to_i, month.to_i, day.to_i)
       add_day
   end
 
@@ -13,22 +12,21 @@ class Weather911::Day
     @@all << self
   end
 
-  def add_hour(hour)
-    hour.day = self
-    @hours << hour
-  end
-
-  def include?(hour)
-
-  end
-
-  def month
-    @date.strftime('%b')
+  def hours
+    Weather911::Hour.in_day(year, month, day)
   end
 
   def year
-    @date.strftime('%Y')
+    @datetime.year
   end
+
+  def month
+    @datetime.month
+  end
+
+  def day
+    @datetime.day
+  end 
 
   def self.get_all
     @@all
@@ -39,7 +37,7 @@ class Weather911::Day
   end
 
   def self.valid?(year, month, day)
-    Date.valid_date?(year.to_i, month.to_i, day.to_i)
+    DateTime.valid_date?(year.to_i, month.to_i, day.to_i)
   end
 
   def self.create(year, month, day)

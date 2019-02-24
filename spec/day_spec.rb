@@ -24,13 +24,18 @@ describe "Day" do
     end
   end
 
-  describe "add_hour" do
-    it "adds and hour object to hours" do
-      day = Weather911::Day.create('1999', '12', '1')
-      hour = Weather911::Hour.new(4)
-      day.add_hour(hour)
 
-      expect(day.hours).to include(hour)
+
+  describe "#hours" do
+    it "returns array of Hours from a given month" do
+      hour = Weather911::Hour.new(2019, 2, 2, 13)
+      hour2 = Weather911::Hour.new(2019, 2, 2, 14)
+      hour3 = Weather911::Hour.new(2019, 1, 4, 13)
+
+      bob = Weather911::Day.create('2019', '2', '2')
+      day_hours = Weather911::Hour.in_day(2019, 2, 2)
+
+      expect(bob.hours).to eq(day_hours)
     end
   end
 

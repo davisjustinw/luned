@@ -4,7 +4,7 @@ class Weather911::Hour
   @@all = []
 
   def initialize(year, month, day, hour)
-    @datetime = DateTime.new(year, month, day, hour)
+    @datetime = DateTime.new(year.to_i, month.to_i, day.to_i, hour.to_i)
     @incidents = []
     @@all << self
   end
@@ -21,9 +21,14 @@ class Weather911::Hour
     @datetime.month
   end
 
-  def self.in_month(year, month)
+  def day
+    @datetime.day
+  end
+
+  def self.in_day(year, month, day)
+    year, month, day = year.to_i, month.to_i, day.to_i
     all.select do |hour|
-      year == hour.year && month == hour.month 
+      year == hour.year && month == hour.month && day == hour.day
     end
   end
 
