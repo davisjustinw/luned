@@ -54,7 +54,7 @@ class Weather911::API
     #needs work
     Weather911::Day.new(year, month, day).tap do |day|
       day.observation = get_day_weather(year, month, day)
-
+      get_day_ems(year, month, day)
     end
   end
 

@@ -34,7 +34,6 @@ describe "Day" do
     end
   end
 
-
   describe "#month" do
     it "returns the three letter string name of the month" do
       obj = Weather911::Day.create('1999', '12', '1')

@@ -4,7 +4,7 @@ class Weather911::Day
   @@all = []
 
   def initialize(year, month, day)
-      @this_date = Date.new(year.to_i, month.to_i, day.to_i)
+      @date = Date.new(year.to_i, month.to_i, day.to_i)
       @hours = []
       add_day
   end
@@ -23,11 +23,11 @@ class Weather911::Day
   end
 
   def month
-    @this_date.strftime('%b')
+    @date.strftime('%b')
   end
 
   def year
-    @this_date.strftime('%Y')
+    @date.strftime('%Y')
   end
 
   def self.get_all

@@ -1,5 +1,5 @@
 class Weather911::Hour
-  attr_accessor :incidents, :observed, :day
+  attr_accessor :incidents, :observed
 
   @@all = []
 
@@ -11,6 +11,20 @@ class Weather911::Hour
 
   def self.all
     @@all
+  end
+
+  def year
+    @datetime.year
+  end
+
+  def month
+    @datetime.month
+  end
+
+  def self.in_month(year, month)
+    all.select do |hour|
+      year == hour.year && month == hour.month 
+    end
   end
 
   def is
