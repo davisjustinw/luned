@@ -1,10 +1,13 @@
 class Weather911::Hour
   attr_accessor :incidents, :observed, :day
-  attr_reader :is
 
-  def initialize(hour)
-    @is = hour
+  def initialize(year, month, day, hour)
+    @datetime = DateTime.new(year, month, day, hour)
     @incidents = []
+  end
+
+  def is
+    @datetime.strftime("%H")
   end
 
   def add_incident(incident)
