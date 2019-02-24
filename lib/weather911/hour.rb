@@ -33,7 +33,7 @@ class Weather911::Hour
   end
 
   def is
-    @datetime.strftime("%H")
+    @datetime.hour 
   end
 
   def add_incident(incident)
