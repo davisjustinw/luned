@@ -2,11 +2,11 @@
 
 class Weather911::Controller
   #@@PROMPTS = ["<yyyy>", "<mm>", "<dd>", "<hr24>"]
-  #attr_accessor :breadcrumb
+  attr_accessor :prompt, :view, :api
 
   def initialize
     @prompt = Weather911::Prompt.new
-    @view = Weather911::View.new(prompt)
+    @view = Weather911::View.new
     @api = Weather911::API.new
   end
 

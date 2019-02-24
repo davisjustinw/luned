@@ -1,9 +1,9 @@
 class Weather911::Hour
-  attr_accessor :incidents, :observed
+  attr_accessor :incidents, :observed, :day
   attr_reader :is
 
   def initialize(hour)
-    @is = hour 
+    @is = hour
     @incidents = []
   end
 

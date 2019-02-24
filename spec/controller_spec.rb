@@ -6,8 +6,8 @@ describe "Controller" do
       control = Weather911::Controller.new
 
       expect(control.view).to be_an_instance_of(Weather911::View)
-      expect(control.API).to be_an_instance_of(Weather911::API)
-      expect(control.Prompt).to be_an_instance_of(Weather911::Prompt)
+      expect(control.api).to be_an_instance_of(Weather911::API)
+      expect(control.prompt).to be_an_instance_of(Weather911::Prompt)
     end
   end
 

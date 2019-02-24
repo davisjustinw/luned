@@ -24,6 +24,17 @@ describe "Day" do
     end
   end
 
+  describe "add_hour" do
+    it "adds and hour object to hours" do
+      day = Weather911::Day.create('1999', '12', '1')
+      hour = Weather911::Hour.new(4)
+      day.add_hour(hour)
+
+      expect(day.hours).to include(hour)
+    end
+  end
+
+
   describe "#month" do
     it "returns the three letter string name of the month" do
       obj = Weather911::Day.create('1999', '12', '1')

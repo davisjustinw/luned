@@ -43,7 +43,8 @@ class Weather911::Prompt
   end
 
   def before_today?
-    Date.new(@breadcrumb[0], @breadcrumb[1], @breadcrumb[2]) < Date.today
+    year, month, day = @breadcrumb
+    Date.new(year, month, day) < Date.today
   end
 
   def int_from(arg)

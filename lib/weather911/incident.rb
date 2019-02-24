@@ -4,4 +4,5 @@ class Weather911::Incident
     @type = type
     @address = address
   end
+
 end

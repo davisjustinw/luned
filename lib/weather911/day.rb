@@ -14,7 +14,12 @@ class Weather911::Day
   end
 
   def add_hour(hour)
-    @hours << hour 
+    hour.day = self
+    @hours << hour
+  end
+
+  def include?(hour)
+
   end
 
   def month
