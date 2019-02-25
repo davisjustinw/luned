@@ -19,16 +19,18 @@ class Weather911::API
 
   def get_month(year, month)
     Time.zone = "Pacific Time (US & Canada)"
-
     start = Time.utc(year, month)
     finish = start.end_of_month.in_time_zone
     start = start.in_time_zone
-    select = "SELECT count(*), date_extract_d(datetime) as day, date_extract_dow(datetime) as weekday"
-    where = "WHERE datetime BETWEEN"
-    wherestart = "'#{start.year}-#{start.month}-#{start.day}T#{start.hour}:#{start.min}:00.000'"
-    wherefinish = "'#{finish.year}-#{finish.month}-#{finish.day}T#{finish.hour}:#{finish.min}:00.000'"
-    group = "GROUP BY day, weekday ORDER BY day"
-    query = URI.encode("$query=#{select} #{where} #{wherestart} AND #{wherefinish} #{group}")
+    str = "$select=datetime,address,type,incident_number&$where=datetime between '#{start.year}-#{start.month}-#{start.day}T#{start.hour}:#{start.min}:00.000' and '#{finish.year}-#{finish.month}-#{finish.day}T#{finish.hour}:#{finish.min}:00.000'&$order=datetime&$limit=20000"
+
+    #select = "SELECT datetime, address, type, incident_number"
+    #where = "WHERE datetime BETWEEN"
+    #wherestart = "'#{start.year}-#{start.month}-#{start.day}T#{start.hour}:#{start.min}:00.000'"
+    #wherefinish = "'#{finish.year}-#{finish.month}-#{finish.day}T#{finish.hour}:#{finish.min}:00.000'"
+    #group = "ORDER BY datetime"
+    #query = URI.encode("$query=#{select} #{where} #{wherestart} AND #{wherefinish} #{group} LIMIT=20000")
+    query = URI.encode(str)
     parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
     response = HTTParty.get("#{@seattle_url}#{query}").parsed_response
     response
@@ -46,7 +48,7 @@ class Weather911::API
     start = Time.utc(year, month, day)
     finish = start.end_of_day.in_time_zone
     start = start.in_time_zone
-    select = "SELECT datetime, address, type, report_location_address, incident_number"
+    select = "SELECT datetime, address, type, incident_number"
     where = "WHERE datetime BETWEEN"
     wherestart = "'#{start.year}-#{start.month}-#{start.day}T#{start.hour}:#{start.min}:00.000'"
     wherefinish = "'#{finish.year}-#{finish.month}-#{finish.day}T#{finish.hour}:#{finish.min}:00.000'"
@@ -68,7 +70,7 @@ class Weather911::API
     get_day_calls(year, month, day).each do |call|
       #.in_time_zone
       time = Time.strptime(call["datetime"], "%Y-%m-%dT%H:%M:%S.%L")
-      Weather911::Call.new(time, call["address"], call["type"], call["report_location_address"], call["incident_number"])
+      Weather911::Call.new(time, call["address"], call["type"], call["incident_number"])
     end
 
     Weather911::Day.create(year, month, day).tap do |new_day|

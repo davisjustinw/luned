@@ -1,9 +1,9 @@
 class Weather911::Call
-  attr_reader :time, :type, :address, :report_address, :incident_number
+  attr_reader :time, :type, :address, :incident_number
 
   @@all = []
 
-  def initialize(time, address, type, report_address, incident_number)
+  def initialize(time, address, type, incident_number)
     @time = time
     @address = address
     @type = type

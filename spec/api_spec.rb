@@ -12,7 +12,7 @@ describe "API" do
       api = Weather911::API.new
       breadcrumb = [2018, 3]
       response = api.get_month(*breadcrumb)
-
+      binding.pry
       expect(response[3]).to eq({"count"=>"286", "day"=>"4", "weekday"=>"0"})
     end
   end
@@ -29,7 +29,7 @@ describe "API" do
     end
   end
 =end
-
+=begin
   describe "#get_day_calls" do
     it "calls seattle 911 database and returns data in the appropriate time box" do
       api = Weather911::API.new
@@ -38,7 +38,7 @@ describe "API" do
       expect(day.first["incident_number"]).to eq("F180022465")
     end
   end
-
+=end
 =begin
   describe "#create_day" do
     it "creates a day, observations and calls for a date" do
