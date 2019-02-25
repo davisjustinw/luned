@@ -7,7 +7,6 @@ class Weather911::Call
     @time = time
     @address = address
     @type = type
-    @report_address = report_address
     @incident_number = incident_number
     @@all << self
   end
