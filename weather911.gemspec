@@ -45,6 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "dotenv"
   spec.add_development_dependency "rounding"
+  spec.add_development_dependency "activesupport"
 
 
 end

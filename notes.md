@@ -34,7 +34,12 @@
   * zen and the art of code re-use.  the story of round_to and readability
   * splat breadcrumbs and readability
   * reluctant to build objects but lead to greater readability
+  * store objects in other objects or call functions with relations
   * too much in place leads to snaggle code
+  * Date DatTime Time a journey with UTC, Daylight savings etc
+  * Using Time except for Valid_Date.  Can't use -1 trick for day in Time
+  * Revisit Setting month to maximum days.
+  * Using TIme on all objects and not storing objects
 
 ## Notes
 

@@ -5,9 +5,8 @@ class Weather911::Month
   @@all = []
 
   def initialize(year, month)
-      @datetime = DateTime.new(year.to_i, month.to_i, -1)
+      @time = Time.new(year.to_i, month.to_i, Time.days_in_month(month.to_i, year.to_i))
       @counts = []
-      @days = []
       add_month
   end
 
@@ -33,7 +32,7 @@ class Weather911::Month
   end
 
   def days_in_month
-    @datetime.day
+    @time.day
   end
 
   def self.valid?(year, month)
@@ -47,19 +46,19 @@ class Weather911::Month
 ##########################################################
 =begin
   def month
-    @datetime.strftime('%b')
+    @time.strftime('%b')
   end
 
   def year
-    @datetime.strftime('%Y')
+    @time.strftime('%Y')
   end
 
   def first_datetime
-    DateTime.new(@datetime.year, @datetime.month, 1)
+    DateTime.new(@time.year, @time.month, 1)
   end
 
   def last_int
-    @datetime.day
+    @time.day
   end
 
   def weekday(day)

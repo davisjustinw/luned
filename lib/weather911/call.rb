@@ -1,34 +1,29 @@
 class Weather911::Call
-  attr_accessor :type, :address
+  attr_reader :time, :type, :address, :report_address, :incident_number
 
   @@all = []
 
-  def initialize(datetime, address, type)
-    @datetime = datetime
+  def initialize(time, address, type, report_address, incident_number)
+    @time = time
     @address = address
     @type = type
+    @report_address = report_address
+    @incident_number = incident_number
     @@all << self
   end
 
-  def year
-    @datetime.year
+  def self.all
+    @@all
   end
 
-  def month
-    @datetime.month
+  def date_string
+    @time.strftime("%Y %m %d")
   end
 
-  def day
-    @datetime.day
-  end
-
-  def hour
-    @datetime.hour
-  end
-
-  def self.during(date)
+  def self.during(time)
+    Time.zone = "Pacific Time (US & Canada)"
     @@all.select do |call|
-      call.year == date.year && call.month == date.month && call.day == date.day
+      call.date_string == time.strftime("%Y %m %d")
     end
   end
 

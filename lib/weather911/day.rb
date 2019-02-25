@@ -1,11 +1,28 @@
 
 class Weather911::Day
-  attr_accessor :summary, :calls, :observations
+  attr_accessor :summary, :high, :low, :pressure, :moonphase
+  attr_reader :time
   @@all = []
 
   def initialize(year, month, day)
-      @datetime = DateTime.new(year.to_i, month.to_i, day.to_i)
+      @time = Time.new(year.to_i, month.to_i, day.to_i)
       add_day
+  end
+
+  def observations
+    Weather911::Observation.during(time)
+  end
+
+  def calls
+    Weather911::Call.during(time)
+  end
+
+  def observations_during_hour(hour)
+
+  end
+
+  def calls_during_hour(hour)
+
   end
 
   def add_day
@@ -13,15 +30,15 @@ class Weather911::Day
   end
 
   def year
-    @datetime.year
+    @time.year
   end
 
   def month
-    @datetime.month
+    @time.month
   end
 
   def is
-    @datetime.day
+    @time.day
   end
 
   def self.get_all

@@ -1,6 +1,7 @@
 #require "spec_helper"
 describe "Day" do
 
+
  describe ".create" do
     it "initializes a day object if the numeric year, month and day are valid" do
       expect(Weather911::Day.create('1999', '2', '13')).to be_an_instance_of(Weather911::Day)
@@ -24,36 +25,23 @@ describe "Day" do
     end
   end
 
+  api = Weather911::API.new
+  #day = api.create_day(2018, 3, 4)
+  day = api.get_day_calls(2018, 3, 4)
+  
+  describe "observations" do
+    it "returns array of Observations for the month" do
 
-
-  describe "#hours" do
-    it "returns array of Hours from a given month" do
-      hour = Weather911::Hour.new(2019, 2, 2, 13)
-      hour2 = Weather911::Hour.new(2019, 2, 2, 14)
-      hour3 = Weather911::Hour.new(2019, 1, 4, 13)
-
-      bob = Weather911::Day.create('2019', '2', '2')
-      day_hours = Weather911::Hour.in_day(2019, 2, 2)
-
-      expect(bob.hours).to eq(day_hours)
+      expect(day.observations.size).to eq(24)
     end
   end
 
-  describe "#month" do
-    it "returns the three letter string name of the month" do
-      obj = Weather911::Day.create('1999', '12', '1')
+  describe "calls" do
+    it "returns array of Calls for the month" do
+      calls = day.calls
 
-      expect(obj.month).to eq("Dec")
+      binding.pry
     end
   end
-
-  describe "#year" do
-    it "returns the four digit year" do
-      obj = Weather911::Day.create('1999', '12', '1')
-
-      expect(obj.year).to eq("1999")
-    end
-  end
-
 
 end

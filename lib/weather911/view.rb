@@ -9,7 +9,7 @@ class Weather911::View
   def month(month)
     calendar = ["| Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
     calendar += Array.new(month.weekday(1), "|    ")
-    month.incident_sums.each do |hash|
+    month.counts.each do |hash|
       day = add_heat(hash["day"].rjust(2,"0"),hash["count"].to_i,month.minmax_count)
       calendar << "| #{day} "
       calendar << "| \n " if hash["weekday"].to_i == 6
@@ -19,8 +19,10 @@ class Weather911::View
 
 
   def day(day)
-    #puts  (0..24).inject('|') { |phrase, hour| "#{phrase}#{hour.to_s.rjust(2, "0")}00|"}
-    puts "\u{1F314}, 50f, 30in"
+    chart = "#{day.summary}\n"
+    chart += "#{moon(day.moonphase)} - #{day.high}f:#{day.low}f - #{day.pressure}mb\n"
+
+
     puts "| 0000 | 0100 | 0200 | 0300 | 0400 |"
     #puts "|      |      |      |      |      |"
     puts "| 0500 | 0600 | #{red('0700')} | 0800 | 0900 |"
@@ -54,7 +56,7 @@ class Weather911::View
 
   def moon(phase)
     icons = {"0.0"=>"\u{1F311}", "0.125"=>"\u{1F312}", "0.25"=>"\u{1F313}", "0.375"=>"\u{1F314}", "0.5"=>"\u{1F315}", "0.625"=>"\u{1F316}", "0.75"=>"\u{1F317}", "0.825"=>"\u{1F318}", "0.95"=>"\u{1F318}", "1.0"=>"\u{1F311}"}
-    icons[phase.round_to(0.125).to_s]
+    icons[phase.to_i.round_to(0.125).to_s]
   end
 
   def add_heat(text, value, minmax)

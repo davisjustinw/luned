@@ -9,6 +9,7 @@ require "dotenv/load"
 require "uri"
 require "json"
 require "rounding"
+require "active_support/time"
 
 require_relative "weather911/version"
 require_relative "weather911/controller"
