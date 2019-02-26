@@ -1,17 +1,17 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "weather911/version"
+require "luned/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "weather911"
-  spec.version       = Weather911::VERSION
+  spec.name          = "luned"
+  spec.version       = Luned::VERSION
   spec.authors       = ["'Justin Davis'"]
   spec.email         = ["'davisjustinw@gmail.com'"]
 
   spec.summary       = "Compares Seattle 911 data with weather and lunar phase"
   spec.description   = "An experiment to see if weather or moon affect 911 call volume in Seattle"
-  spec.homepage      = "https://github.com/davisjustinw/weather911"
+  spec.homepage      = "https://github.com/davisjustinw/luned"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
     spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "https://github.com/davisjustinw/weather911"
-    spec.metadata["changelog_uri"] = "https://github.com/davisjustinw/weather911"
+    spec.metadata["source_code_uri"] = "https://github.com/davisjustinw/luned"
+    spec.metadata["changelog_uri"] = "https://github.com/davisjustinw/luned"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."

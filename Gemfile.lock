@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    weather911 (0.1.0)
+    luned (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -68,13 +68,13 @@ DEPENDENCIES
   bundler (~> 2.0)
   dotenv
   httparty
+  luned!
   nokogiri
   pry
   rake (~> 10.0)
   rounding
   rspec
   soda-ruby
-  weather911!
 
 BUNDLED WITH
    2.0.1

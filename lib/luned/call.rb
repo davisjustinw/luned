@@ -1,4 +1,4 @@
-class Weather911::Call
+class Luned::Call
   attr_reader :day, :time, :type, :address, :incident_number
 
   @@all = []

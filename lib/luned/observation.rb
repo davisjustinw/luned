@@ -1,4 +1,4 @@
-class Weather911::Observation
+class Luned::Observation
   attr_reader :day, :time, :summary, :temperature, :pressure
 
   @@all = []

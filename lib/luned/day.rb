@@ -1,5 +1,5 @@
 
-class Weather911::Day
+class Luned::Day
   attr_accessor :summary, :high, :low, :pressure, :moonphase, :calls, :observations
   attr_reader :time
   @@all = []
@@ -20,11 +20,11 @@ class Weather911::Day
   end
 
   def new_call(time, address, type, incident_number)
-    Weather911::Call.new(self, time, address, type, incident_number).tap { |call| @calls << call }
+    Luned::Call.new(self, time, address, type, incident_number).tap { |call| @calls << call }
   end
 
   def new_observation(time, summary, temperature, pressure)
-    Weather911::Observation.new(self, time, summary, temperature, pressure).tap { |obs| @observations << obs }
+    Luned::Observation.new(self, time, summary, temperature, pressure).tap { |obs| @observations << obs }
   end
 
   def count

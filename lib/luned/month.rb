@@ -1,4 +1,4 @@
-class Weather911::Month
+class Luned::Month
 
   attr_reader :time, :days
 
@@ -14,12 +14,16 @@ class Weather911::Month
     self.new(year, month) if valid?(year, month)
   end
 
+  def self.build(year, month)
+    binding.pry
+  end
+
   def add
     @@all << self
   end
 
   def add_day(day)
-    Weather911::Day.new(self, day).tap { |day| @days << day }
+    Luned::Day.new(self, day).tap { |day| @days << day }
   end
 
   def minmax_count
@@ -33,7 +37,7 @@ class Weather911::Month
 
   def is
     @time.month
-  end 
+  end
 
   def self.all
     @@all

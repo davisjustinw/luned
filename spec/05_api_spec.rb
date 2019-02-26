@@ -9,7 +9,7 @@ describe "API" do
 =begin
   describe "#get_calls" do
     it "receives array with year and month, returns an array of hashes with count and day" do
-      api = Weather911::API.new
+      api =Luned::API.new
       breadcrumb = [2018, 3]
       response = api.get_calls(*breadcrumb)
       binding.pry
@@ -20,7 +20,7 @@ describe "API" do
 
   describe "#create_calls" do
     it "receives array with year and month, returns an array of hashes with count and day" do
-      api = Weather911::API.new
+      api =Luned::API.new
       breadcrumb = [2018, 3]
       response = api.create_calls(*breadcrumb)
 
@@ -29,7 +29,7 @@ describe "API" do
 
   describe "#create_observations" do
     it "creates a day, observations and calls for a date" do
-      api = Weather911::API.new
+      api =Luned::API.new
       pdt = api.create_observations(2018, 4, 10)
       pst = api.create_observations(2018, 12, 10)
 

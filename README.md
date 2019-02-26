@@ -8,7 +8,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'weather911'
+gem 'Luned'
 ```
 
 And then execute:
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install weather911
+    $ gem install Luned
 
 ## Usage
 

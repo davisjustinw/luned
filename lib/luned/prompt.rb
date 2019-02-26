@@ -1,4 +1,4 @@
-class Weather911::Prompt
+class Luned::Prompt
   @@PROMPTS = ["<yyyy>", "<mm>", "<dd>", "<hr24>"]
   attr_accessor :breadcrumb, :arg, :args
 

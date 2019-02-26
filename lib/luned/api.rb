@@ -1,4 +1,4 @@
-class Weather911::API
+class Luned::API
 
   def initialize
     if ENV['seattle_token']
@@ -17,9 +17,9 @@ class Weather911::API
 
   end
 
-  def get_calls(year, month)
+  def get_calls(month)
     Time.zone = "Pacific Time (US & Canada)"
-    start = Time.utc(year, month)
+    start = Time.utc(month.year, month.is)
     finish = start.end_of_month.in_time_zone
     start = start.in_time_zone
     str = "$select=datetime,address,type,incident_number"
@@ -32,12 +32,12 @@ class Weather911::API
     HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
 
-  def create_calls(year, month)
+  def create_calls(month)
     Time.zone = "Pacific Time (US & Canada)"
-    get_calls(year, month).each do |call|
+    get_calls(month).each do |call|
       time = Time.strptime(call["datetime"], "%Y-%m-%dT%H:%M:%S.%L").utc.to_s
       time = Time.strptime(time, "%Y-%m-%d %H:%M:%S UTC").in_time_zone
-      Weather911::Call.new(time, call["address"], call["type"], call["incident_number"])
+      Luned::Call.new(time, call["address"], call["type"], call["incident_number"])
     end
   end
 
@@ -50,7 +50,7 @@ class Weather911::API
 
   def create_observations(year, month, day)
 
-    Weather911::Day.create(year, month, day).tap do |new_day|
+    Luned::Day.create(year, month, day).tap do |new_day|
       response = get_weather(year, month, day)
       daily = response["daily"]["data"].first
       new_day.summary = daily["summary"]
@@ -63,7 +63,7 @@ class Weather911::API
 
       hourly.each do |obs|
         time = Time.strptime(obs["time"].to_s, "%s").in_time_zone
-        Weather911::Observation.new(time, obs["summary"], obs["temperature"], obs["pressure"])
+        Luned::Observation.new(time, obs["summary"], obs["temperature"], obs["pressure"])
       end
     end
   end

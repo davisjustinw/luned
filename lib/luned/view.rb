@@ -1,4 +1,4 @@
-class Weather911::View
+class Luned::View
 
   def initialize
   end

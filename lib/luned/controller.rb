@@ -1,13 +1,13 @@
 #controller
 
-class Weather911::Controller
+class Luned::Controller
   #@@PROMPTS = ["<yyyy>", "<mm>", "<dd>", "<hr24>"]
   attr_accessor :prompt, :view, :api
 
   def initialize
-    @prompt = Weather911::Prompt.new
-    @view = Weather911::View.new
-    @api = Weather911::API.new
+    @prompt = Luned::Prompt.new
+    @view = Luned::View.new
+    @api = Luned::API.new
   end
 
   def start
