@@ -36,10 +36,10 @@ describe "Month" do
    end
 
    describe "#minmax_count" do
-     it "return the lowest and the highest count from incident_sums" do
+     it "return the lowest and the highest count from calls" do
        month = Weather911::Month.create(2019, 2)
-       month.add_day(1).observations = [1,2,3,4]
-       month.add_day(2).observations = [1,2]
+       month.add_day(1).calls = [1,2,3,4]
+       month.add_day(2).calls = [1,2]
        expect(month.minmax_count).to eq([2,4])
      end
    end

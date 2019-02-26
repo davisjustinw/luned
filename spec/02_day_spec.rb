@@ -1,46 +1,82 @@
 #require "spec_helper"
 describe "Day" do
 
-
  describe ".create" do
     it "initializes a day object if the numeric year, month and day are valid" do
-      expect(Weather911::Day.create('1999', '2', '13')).to be_an_instance_of(Weather911::Day)
+      month = Weather911::Month.new(1999, 2)
+      expect(Weather911::Day.create(month, '13')).to be_an_instance_of(Weather911::Day)
     end
 
     it "return falsey if not a valid year, month and day" do
-      expect(Weather911::Day.create('bob', 'ross', 'artist')).to be_falsey
+      month = Weather911::Month.new(1999, 2)
+      expect(Weather911::Day.create(month, 31)).to be_falsey
     end
 
-    it ".get_all includes newly created Day object" do
-      obj = Weather911::Day.create('1999', '12', '1')
-      expect(Weather911::Day.get_all).to include(obj)
+    it ".all includes newly created Day object" do
+      month = Weather911::Month.new(1999, 2)
+      obj = Weather911::Day.create(month, '1')
+      expect(Weather911::Day.all).to include(obj)
+    end
+  end
+
+  describe "#add" do
+    it "adds Day to all" do
+      month = Weather911::Month.new(2019, 2)
+      day = Weather911::Day.new(month, 3)
+      day.add
+      expect(Weather911::Day.all).to include(day)
+    end
+  end
+
+  describe "#new_call" do
+    it "creates new call and adds it to the day" do
+      month = Weather911::Month.new(2019, 2)
+      day = Weather911::Day.new(month, 3)
+      call = day.new_call('2345', '1234 bob', 'aid', '12345')
+
+      expect(call).to be_an_instance_of(Weather911::Call)
+      expect(day.calls).to include(call)
+    end
+  end
+
+  describe "#new_observation" do
+    it "creates new observation and adds it to the day" do
+      month = Weather911::Month.new(2019, 2)
+      day = Weather911::Day.new(month, 3)
+      observation = day.new_observation(2300, 'Cloudy', '43', '1001')
+
+      expect(observation).to be_an_instance_of(Weather911::Observation)
+      expect(day.observations).to include(observation)
+    end
+  end
+
+  describe "#count" do
+    it "returns number of calls associated with the day" do
+      month = Weather911::Month.create(2019, 2)
+      day = Weather911::Day.new(month, 1)
+      day.calls = [1,2,3,4]
+      expect(day.count).to eq(4)
     end
   end
 
   describe ".delete_all" do
-    it ".get_all return an empty array after call" do
-      4.times {Weather911::Day.create(Date.today.year, Date.today.month, Date.today.day)}
+    it ".all return an empty array after call" do
+      month = Weather911::Month.create(2019, 2)
+      4.times {Weather911::Day.create(month, 1)}
       Weather911::Day.delete_all
-      expect(Weather911::Day.get_all).to eq([])
+      expect(Weather911::Day.all).to eq([])
     end
   end
 
-  api = Weather911::API.new
-  #day = api.create_day(2018, 3, 4)
-  day = api.get_day_calls(2018, 3, 4)
-  
-  describe "observations" do
-    it "returns array of Observations for the month" do
-
-      expect(day.observations.size).to eq(24)
+  describe ".valid?" do
+    it "returns true if valid parameters for month" do
+      month = Weather911::Month.new(2019, 2)
+      expect(Weather911::Day.valid?(month, 4)).to be_truthy
     end
-  end
 
-  describe "calls" do
-    it "returns array of Calls for the month" do
-      calls = day.calls
-
-      binding.pry
+    it "returns false if not valid parameters for month" do
+      month = Weather911::Month.new(2019, 2)
+      expect(Weather911::Day.valid?(month, 30)).to be_falsey
     end
   end
 

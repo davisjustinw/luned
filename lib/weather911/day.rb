@@ -8,10 +8,14 @@ class Weather911::Day
       @time = Time.new(month.year, month.is, day.to_i)
       @calls = []
       @observations = []
-      add_day
+      add
   end
 
-  def add_day
+  def self.create(month, day)
+    self.new(month, day) if valid?(month, day)
+  end
+
+  def add
     @@all << self
   end
 
@@ -35,13 +39,10 @@ class Weather911::Day
     @@all.clear
   end
 
-  def self.valid?(year, month, day)
-    DateTime.valid_date?(year.to_i, month.to_i, day.to_i)
+  def self.valid?(month, day)
+    DateTime.valid_date?(month.year, month.is, day.to_i)
   end
 
-  def self.create(year, month, day)
-    self.new(year, month, day) if valid?(year, month, day)
 
-  end
 
 end
