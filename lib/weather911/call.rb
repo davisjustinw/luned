@@ -1,9 +1,10 @@
 class Weather911::Call
-  attr_reader :time, :type, :address, :incident_number
+  attr_reader :day, :time, :type, :address, :incident_number
 
   @@all = []
 
-  def initialize(time, address, type, incident_number)
+  def initialize(day, time, address, type, incident_number)
+    @day = day
     @time = time
     @address = address
     @type = type
@@ -13,17 +14,6 @@ class Weather911::Call
 
   def self.all
     @@all
-  end
-
-  def date_string
-    @time.strftime("%Y %m %d")
-  end
-
-  def self.during(time)
-    Time.zone = "Pacific Time (US & Canada)"
-    @@all.select do |call|
-      call.date_string == time.strftime("%Y %m %d")
-    end
   end
 
 end

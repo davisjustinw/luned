@@ -1,9 +1,10 @@
 class Weather911::Observation
-  attr_reader :time, :summary, :temperature, :pressure
+  attr_reader :day, :time, :summary, :temperature, :pressure
 
   @@all = []
 
-  def initialize(time, summary, temperature, pressure)
+  def initialize(day, time, summary, temperature, pressure)
+    @day = day
     @time = time
     @summary = summary
     @temperature = temperature
@@ -13,16 +14,6 @@ class Weather911::Observation
 
   def self.all
     @@all
-  end
-
-  def date_string
-    @time.strftime("%Y %m %d")
-  end
-
-  def self.during(time)
-    @@all.select do |obs|
-      obs.date_string == time.strftime("%Y %m %d")
-    end
   end
 
 end

@@ -23,7 +23,6 @@ describe "API" do
       api = Weather911::API.new
       breadcrumb = [2018, 3]
       response = api.create_calls(*breadcrumb)
-      binding.pry
 
     end
   end
@@ -36,7 +35,7 @@ describe "API" do
       api = Weather911::API.new
       pdt = api.create_observations(2018, 4, 10)
       pst = api.create_observations(2018, 12, 10)
-      binding.pry
+      
     end
   end
 
