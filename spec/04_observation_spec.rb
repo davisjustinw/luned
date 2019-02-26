@@ -1,11 +1,10 @@
 describe "Observation" do
-  describe "::during" do
-    it "returns all observations made during the time given" do
-      ob1 = Weather911::Observation.new(DateTime.new(2019, 12, 31, 1))
-      ob2 = Weather911::Observation.new(DateTime.new(2019, 12, 31, 2))
-      ob3 = Weather911::Observation.new(DateTime.new(2019, 12, 30, 1))
-      day = DateTime.new(2019, 12, 31)
-      expect(Weather911::Observation.during(day)).to include(ob1)
+  describe ".new" do
+    it "initializes Observation" do
+      month = Weather911::Month.create(2019, 2)
+      day = Weather911::Day.new(month, 1)
+      observation = Weather911::Observation.new(day, 2300, 'Cloudy', '43', '1001')
+      expect(observation).to be_an_instance_of(Weather911::Observation)
     end
   end
 end

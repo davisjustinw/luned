@@ -17,7 +17,7 @@ describe "API" do
       expect(response[-1]["incident_number"]).to eq({"F180032527"})
     end
   end
-=end
+
   describe "#create_calls" do
     it "receives array with year and month, returns an array of hashes with count and day" do
       api = Weather911::API.new
@@ -27,16 +27,13 @@ describe "API" do
     end
   end
 
-
-
-
   describe "#create_observations" do
     it "creates a day, observations and calls for a date" do
       api = Weather911::API.new
       pdt = api.create_observations(2018, 4, 10)
       pst = api.create_observations(2018, 12, 10)
-      
+
     end
   end
-
+=end
 end
