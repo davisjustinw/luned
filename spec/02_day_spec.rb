@@ -50,6 +50,17 @@ describe "Day" do
     end
   end
 
+  describe "#build_observations" do
+    it "fills out the Day object with observation objects filled wil dark sky data" do
+      month = Luned::Month.new(2019, 2)
+      day = Luned::Day.new(month, 3)
+      day.build_observations
+      binding.pry
+      expect(day.observations).not_to be_empty
+      expect(day.summary).not_to be_empty
+    end
+  end
+
   describe "#count" do
     it "returns number of calls associated with the day" do
       month = Luned::Month.create(2019, 2)

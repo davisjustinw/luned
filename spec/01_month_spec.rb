@@ -26,9 +26,12 @@ describe "Month" do
    end
 
    describe ".build" do
-     it "initializes a month object and loads with dayy and calls from the api" do
+     it "initializes a month object and loads with day and calls from the api" do
        built = Luned::Month.build(2018, 2)
-       binding.pry
+
+       expect(built).to be_an_instance_of(Luned::Month)
+       expect(built.days).not_to be_empty
+       expect(built.days[0].calls).not_to be_empty
      end
    end
 

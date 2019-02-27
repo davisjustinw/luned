@@ -15,7 +15,7 @@ class Luned::Day
   def is
     @time.day
   end
-  
+
   def self.create(month, day)
     self.new(month, day) if valid?(month, day)
   end
@@ -30,6 +30,20 @@ class Luned::Day
 
   def new_observation(time, summary, temperature, pressure)
     Luned::Observation.new(self, time, summary, temperature, pressure).tap { |obs| @observations << obs }
+  end
+
+  def build_observations
+    daily = @@api.get_weather(@time.year, @time.month, @time.day)
+    @summary = daily["summary"]
+    @high = daily["temperatureHigh"]
+    @low = daily["temperatureLow"]
+    @pressure = daily["pressure"]
+    @moonphase = daily["moonPhase"]
+
+    while !@@api.hourly_observation_rows.empty? do
+      row = @@api.next_hourly_observation_row
+      new_observation(row[:time], row[:summary], row[:temperature], row[:pressure])
+    end
   end
 
   def count
@@ -47,7 +61,5 @@ class Luned::Day
   def self.valid?(month, day)
     DateTime.valid_date?(month.year, month.is, day.to_i)
   end
-
-
 
 end
