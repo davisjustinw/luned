@@ -1,5 +1,7 @@
 class Luned::API
 
+  attr_reader :call_rows
+
   def initialize
     if ENV['seattle_token']
       @seattle_token = "$$app_token=#{ENV['seattle_token']}"
@@ -15,9 +17,10 @@ class Luned::API
       @seattle_url = "https://data.seattle.gov/resource/grwu-wqtk.json?"
       @weather_url = "https://api.darksky.net/forecast/"
 
+    @call_rows = []
   end
 
-  def get_calls(month)
+  def get_call_rows(month)
     Time.zone = "Pacific Time (US & Canada)"
     start = Time.utc(month.year, month.is)
     finish = start.end_of_month.in_time_zone
@@ -29,8 +32,18 @@ class Luned::API
     str += "&$order=datetime&$limit=20000"
     query = URI.encode(str)
     parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
-    HTTParty.get("#{@seattle_url}#{query}").parsed_response
+    @call_rows += HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
+
+  def next_call_row
+    if @call_rows
+      row = @call_rows.shift
+      time = Time.strptime(row["datetime"], "%Y-%m-%dT%H:%M:%S.%L").utc.to_s
+      time = Time.strptime(time, "%Y-%m-%d %H:%M:%S UTC").in_time_zone
+      {time: time, address: row["address"], type: row["type"], incident_number: row["incident_number"]}
+    end
+  end
+
 
   def create_calls(month)
     Time.zone = "Pacific Time (US & Canada)"

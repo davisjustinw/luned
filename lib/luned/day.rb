@@ -3,6 +3,7 @@ class Luned::Day
   attr_accessor :summary, :high, :low, :pressure, :moonphase, :calls, :observations
   attr_reader :time
   @@all = []
+  @@api = Luned::API.new
 
   def initialize(month, day)
       @time = Time.new(month.year, month.is, day.to_i)
@@ -11,6 +12,10 @@ class Luned::Day
       add
   end
 
+  def is
+    @time.day
+  end
+  
   def self.create(month, day)
     self.new(month, day) if valid?(month, day)
   end

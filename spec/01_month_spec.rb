@@ -23,7 +23,13 @@ describe "Month" do
      it "return falsey if not a valid year, month" do
        expect(Luned::Month.create('bob', 'ross')).to be_falsey
      end
+   end
 
+   describe ".build" do
+     it "initializes a month object and loads with dayy and calls from the api" do
+       built = Luned::Month.build(2018, 2)
+       binding.pry
+     end
    end
 
    describe "#add_day" do

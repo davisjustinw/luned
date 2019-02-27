@@ -3,6 +3,7 @@ class Luned::Month
   attr_reader :time, :days
 
   @@all = []
+  @@api = Luned::API.new
 
   def initialize(year, month)
       @time = Time.new(year.to_i, month.to_i, Time.days_in_month(month.to_i, year.to_i))
@@ -15,7 +16,19 @@ class Luned::Month
   end
 
   def self.build(year, month)
-    binding.pry
+    create(year, month).tap do |month|
+      day = nil
+      @@api.get_call_rows(month)
+      while !@@api.call_rows.empty? do
+        row = @@api.next_call_row
+        day = month.add_day(row[:time].day) if !day || day.is != row[:time].day
+        day.new_call(row[:time], row[:address], row[:type], row[:incident_number])
+      end
+    end
+  end
+
+  def count_calls
+    days.inject(0) { |sum, day| sum += day.count }
   end
 
   def add
@@ -27,8 +40,8 @@ class Luned::Month
   end
 
   def minmax_count
-    min, max = counts.minmax_by { |day| day["count"].to_i }
-    minmax = min["count"].to_i, max["count"].to_i
+    min, max = days.minmax_by { |day| day.count }
+    minmax = min.count, max.count
   end
 
   def year
