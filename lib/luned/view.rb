@@ -21,20 +21,18 @@ class Luned::View
 
 
   def day(day)
-    chart = "#{day.summary}\n"
-    chart += "#{moon(day.moonphase)} - #{day.high}f:#{day.low}f - #{day.pressure}mb\n"
-
-
-    puts "| 0000 | 0100 | 0200 | 0300 | 0400 |"
-    #puts "|      |      |      |      |      |"
-    puts "| 0500 | 0600 | #{red('0700')} | 0800 | 0900 |"
-    #puts "|      |      |      |      |      |"
-    puts "| 1000 | 1100 | 1200 | 1300 | 1400 |"
-    #puts "|      |      |      |      |      |"
-    puts "| 1500 | 1600 | 1700 | 1800 | 1900 |"
-    #puts "|      |      |      |      |      |"
-    puts "| 2000 | 2100 | 2200 | #{green('2300')} |"
-    #puts "|      |      |      |      |"
+    puts ""
+    print "#{day.summary}\n"
+    print "#{moon(day.moonphase)} - #{day.low}F #{day.high}F - #{day.pressure}mb\n"
+    puts ""
+    chart = day.observations.inject("") do |chart, observation|
+      time = observation.time
+      entry = add_heat(time.strftime("%H%M"), day.count_by_hour(time.hour), day.minmax_count)
+      chart += "| #{entry} "
+      chart +=  "| \n" if (time.hour + 1) % 5 == 0
+      chart
+    end
+    print chart
 
     puts ''
   end
@@ -57,7 +55,7 @@ class Luned::View
   end
 
   def moon(phase)
-    icons = {"0.0"=>"\u{1F311}", "0.125"=>"\u{1F312}", "0.25"=>"\u{1F313}", "0.375"=>"\u{1F314}", "0.5"=>"\u{1F315}", "0.625"=>"\u{1F316}", "0.75"=>"\u{1F317}", "0.825"=>"\u{1F318}", "0.95"=>"\u{1F318}", "1.0"=>"\u{1F311}"}
+    icons = {"0.0"=>"\u{1F311}", "0.125"=>"\u{1F312}", "0.25"=>"\u{1F313}", "0.375"=>"\u{1F314}", "0.5"=>"\u{1F315}", "0.625"=>"\u{1F316}", "0.75"=>"\u{1F317}", "0.875"=>"\u{1F318}", "1.0"=>"\u{1F311}"}
     icons[phase.round_to(0.125).to_s]
   end
 

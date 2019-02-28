@@ -5,6 +5,7 @@ class Luned::Day
   @@all = []
   @@api = Luned::API.new
 
+
   def initialize(month, day)
       @time = Time.new(month.year, month.is, day.to_i)
       @calls = []
@@ -52,6 +53,14 @@ class Luned::Day
 
   def count
     @calls.size
+  end
+
+  def count_by_hour(hour)
+    @calls.count { |call| call.time.hour == hour }
+  end
+
+  def minmax_count
+    (0..23).collect { |hour| count_by_hour(hour) }.minmax
   end
 
   def self.all
