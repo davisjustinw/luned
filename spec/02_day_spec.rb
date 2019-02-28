@@ -55,9 +55,10 @@ describe "Day" do
       month = Luned::Month.new(2019, 2)
       day = Luned::Day.new(month, 3)
       day.build_observations
-      binding.pry
+
       expect(day.observations).not_to be_empty
       expect(day.summary).not_to be_empty
+      expect(day.observations.size).to be(24)
     end
   end
 

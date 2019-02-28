@@ -46,6 +46,10 @@ class Luned::Day
     end
   end
 
+  def weekday
+    @time.strftime("%w").to_i
+  end
+
   def count
     @calls.size
   end

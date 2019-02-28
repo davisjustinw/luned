@@ -8,12 +8,14 @@ class Luned::View
   end
   def month(month)
     calendar = ["| Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
-    calendar += Array.new(month.weekday(1), "|    ")
-    month.counts.each do |hash|
-      day = add_heat(hash["day"].rjust(2,"0"),hash["count"].to_i,month.minmax_count)
-      calendar << "| #{day} "
-      calendar << "| \n " if hash["weekday"].to_i == 6
+
+    month.days.each do |day|
+      calendar += Array.new(day.weekday, "|    ") if day.is == 1
+      entry = add_heat(day.is.to_s.rjust(2,"0"), day.count, month.minmax_count)
+      calendar << "| #{entry} "
+      calendar << "| \n " if day.weekday == 6
     end
+    #binding.pry
     calendar.each { |x| print x }
   end
 
@@ -56,7 +58,7 @@ class Luned::View
 
   def moon(phase)
     icons = {"0.0"=>"\u{1F311}", "0.125"=>"\u{1F312}", "0.25"=>"\u{1F313}", "0.375"=>"\u{1F314}", "0.5"=>"\u{1F315}", "0.625"=>"\u{1F316}", "0.75"=>"\u{1F317}", "0.825"=>"\u{1F318}", "0.95"=>"\u{1F318}", "1.0"=>"\u{1F311}"}
-    icons[phase.to_i.round_to(0.125).to_s]
+    icons[phase.round_to(0.125).to_s]
   end
 
   def add_heat(text, value, minmax)

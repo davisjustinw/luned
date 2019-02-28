@@ -33,7 +33,7 @@ describe "View" do
 
   describe "#month" do
     it "prints the month with hotness" do
-      month = Luned::Month.new(2019,1)
+      month = Luned::Month.build(2019,1)
 
       view = Luned::View.new
       view.month(month)

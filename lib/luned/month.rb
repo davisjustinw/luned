@@ -52,6 +52,14 @@ class Luned::Month
     @time.month
   end
 
+  def first_day
+    @time - (@time.day - 1)
+  end
+
+  def weekday(day)
+    (first_day + (day - 1)).strftime('%w').to_i
+  end
+
   def self.all
     @@all
   end
