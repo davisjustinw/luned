@@ -64,24 +64,4 @@ class Luned::API
     end
   end
 
-  def create_observations(year, month, day)
-
-    Luned::Day.create(year, month, day).tap do |new_day|
-      response = get_weather(year, month, day)
-      daily = response["daily"]["data"].first
-      new_day.summary = daily["summary"]
-      new_day.high = daily["temperatureHigh"]
-      new_day.low = daily["temperatureLow"]
-      new_day.pressure = daily["pressure"]
-      new_day.moonphase = daily["moonPhase"]
-
-      hourly = response["hourly"]["data"]
-
-      hourly.each do |obs|
-        time = Time.strptime(obs["time"].to_s, "%s").in_time_zone
-        Luned::Observation.new(time, obs["summary"], obs["temperature"], obs["pressure"])
-      end
-    end
-  end
-
 end
