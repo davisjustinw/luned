@@ -144,18 +144,6 @@ describe "Prompt" do
     end
   end
 
-  describe "#int_from" do
-    it "returns integer if string converts to valid integer" do
-      prompt = Luned::Prompt.new
-      expect(prompt.int_from('2')).to eq(2)
-    end
-
-    it "return false if string doesn't convert to valid integer" do
-      prompt = Luned::Prompt.new
-      expect(prompt.int_from('bob')).to be_falsey
-    end
-  end
-
   describe "submit_args" do
     it "saves args to the breadcrumb" do
       prompt = Luned::Prompt.new

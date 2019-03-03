@@ -10,7 +10,7 @@
 ---
 ## Description
   * Greet User
-  * gets <mon yyyy> ex: jan 2004
+  * gets <mon yyyy> ex: jan 2014
   * display calendar color coded red == high call volume, green == low call volume
   * gets day
   * displays weather, lunar phase, call stats on hour (color coded?)

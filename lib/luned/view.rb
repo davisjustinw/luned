@@ -26,6 +26,7 @@ class Luned::View
 
   def month(month)
     print "\n"
+    print " ------------- #{month.time.strftime("%b %Y")} ------------- \n"
     calendar = [" | Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
 
     month.days.each do |day|
@@ -36,15 +37,12 @@ class Luned::View
       calendar << "| \n " if day.weekday == 6
     end
     calendar.each { |x| print x }
-    print "\n"
+    print "\n\n"
   end
 
   def day(day)
     print "\n"
-    print "#{day.summary}\n"
-    print "#{moon(day.moonphase)} - #{day.low}F #{day.high}F - #{day.pressure}mb\n"
-    print "\n"
-
+    print "-------------- #{day.time.strftime("%d %b %Y")} --------------\n"
     chart = day.hours.inject("") do |chart, hour|
       hour = hour.last
       time = hour.time
@@ -53,9 +51,10 @@ class Luned::View
       chart +=  "| \n" if (time.hour + 1) % 5 == 0
       chart
     end
-    print chart
+    print "#{chart}\n\n"
+    print "#{moon(day.moonphase)} - #{day.low}F #{day.high}F - #{day.pressure}mb\n"
+    print "#{day.summary}\n\n"
 
-    print "\n"
   end
 
   def hour(hour)
@@ -65,7 +64,7 @@ class Luned::View
     hour.calls.each do |call|
       print "#{call.time.strftime("%H:%M")} - #{call.incident_number} - #{call.type} - #{call.address}\n"
     end
-    print "\n"
+    print "\n\n"
   end
 
   def moon(phase)

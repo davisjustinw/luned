@@ -9,7 +9,7 @@ class Luned::Prompt
   end
 
   def display_breadcrumb
-    print  "#{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
+    print  "#{@breadcrumb.join(" ")} #{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
   end
 
   def get_args
@@ -31,14 +31,10 @@ class Luned::Prompt
     end
   end
 
-  def int_from(arg)
-    arg.to_i if arg.to_i.to_s == arg
-  end
-
   def submit_args
     up
     @args.each do |arg|
-        int_from(arg).tap do |int|
+        arg.to_i.tap do |int|
           valid_time?(int) ? @breadcrumb << int : break
         end
     end
@@ -60,28 +56,30 @@ class Luned::Prompt
     end
   end
 
+  def min_date
+    Time.new(2010, 7, 1)
+  end
+
   def valid_year?(int)
-    int.between?(2003, Date.today.year)
+    int.between?(2010, Time.now.year)
   end
 
   def valid_month?(int)
       year = @breadcrumb.first
-      min_date = Date.new(2003, 11)
-      input_date = Date.new(year, int) if int.between?(1,12)
-      input_date && input_date.between?(min_date, Date.today)
+      input_date = Time.new(year, int) if int.between?(1,12)
+      input_date && input_date.between?(min_date, Time.now)
   end
 
   def valid_day?(int)
     year, month = @breadcrumb
-    min_date = Date.new(2003, 11, 7)
-    input_date = Date.new(year, month, int) if Date.valid_date?(year, month, int)
-    input_date && input_date.between?(min_date, Date.today)
+    input_date = Date.new(year, month, int) if DateTime.valid_date?(year, month, int)
+    input_date && input_date.between?(min_date, Time.now)
   end
 
   def valid_hour?(int)
     year, month, day = @breadcrumb
-    this_datetime = DateTime.new(year, month, day, int) if hour?(int)
-    now = DateTime.now
+    this_datetime = Time.new(year, month, day, int) if hour?(int)
+    now = Time.now
     if this_datetime && this_datetime.to_date == now.to_date && int < now.hour
       true
     elsif this_datetime && this_datetime.to_date < now.to_date
@@ -92,7 +90,6 @@ class Luned::Prompt
   end
 
   def hour?(int)
-    #fix this
     int.between?(0,23) if int
   end
 
