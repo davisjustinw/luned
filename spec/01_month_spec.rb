@@ -50,14 +50,6 @@ describe "Month" do
      end
    end
 
-   describe ".delete_all" do
-     it ".all returns an empty hash after call" do
-       4.times {Luned::Month.create(Date.today.year, Date.today.month)}
-       Luned::Month.delete_all
-       expect(Luned::Month.all).to eq({})
-     end
-   end
-
    describe ".valid?" do
      it "returns true if year and month make a valid month" do
        expect(Luned::Month.valid?(2019, 2)).to be_truthy

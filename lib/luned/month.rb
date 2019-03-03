@@ -6,9 +6,9 @@ class Luned::Month
   @@api = Luned::API.new
 
   def initialize(time)
-      @time = time
-      @days = {}
-      add
+    @time = time
+    @days = {}
+    add
   end
 
   def self.new_with_int(year, month)
@@ -67,24 +67,8 @@ class Luned::Month
     @time.month
   end
 
-  def first_day
-    @time - (@time.day - 1)
-  end
-
-  def weekday(day)
-    (first_day + (day - 1)).strftime('%w').to_i
-  end
-
   def self.all
     @@all
-  end
-
-  def self.include?(time)
-    @@all.key?(Time.new(time.year, time.month))
-  end
-
-  def self.delete_all
-    @@all.clear
   end
 
   def self.valid?(year, month)
