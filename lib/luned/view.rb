@@ -5,9 +5,20 @@ class Luned::View
     when 2
       month(Luned::Month.get_or_build(*args))
     when 3
-      #day
+      time = Time.new(*args)
+      Luned::Month.get_or_build(time.year, time.month).\
+        get_or_new_day(time).tap do |obj|
+          obj.build_observations
+          day(obj)
+        end
     when 4
-      #hour
+      time = Time.new(*args)
+      Luned::Month.get_or_build(time.year, time.month).tap do |obj|
+        obj.get_or_new_day(time).tap do |obj|
+          obj.build_observations
+          hour(obj.get_or_new_hour(time))
+        end
+      end
     else
       nil
     end

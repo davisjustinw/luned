@@ -22,6 +22,10 @@ class Luned::Day
     end
   end
 
+  def get_or_new_hour(time)
+    hour(time) || new_hour(time)
+  end
+
   def hour(time)
     hours[time.hour] if hours.key?(time.hour)
   end
