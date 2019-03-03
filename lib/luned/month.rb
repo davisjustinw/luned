@@ -54,11 +54,9 @@ class Luned::Month
     @@all[self.time] = self
   end
 
-
-
   def minmax_count
-    min, max = days.minmax_by { |day| day.count }
-    minmax = min.count, max.count
+    min, max = days.minmax_by { |day| day.last.count }
+    minmax = min.last.count, max.last.count
   end
 
   def year

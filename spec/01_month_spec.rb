@@ -28,7 +28,6 @@ describe "Month" do
    describe ".build_from_api" do
      it "initializes a month object and loads with day and calls from the api" do
        built = Luned::Month.build_from_api(2018, 2)
-
        expect(built).to be_an_instance_of(Luned::Month)
        expect(built.days.keys).to be_truthy
        expect(built.count_calls).to be > 0
@@ -46,10 +45,8 @@ describe "Month" do
 
    describe "#minmax_count" do
      it "return the lowest and the highest count from calls" do
-       month = Luned::Month.create(2019, 2)
-       month.add_day(1).calls = [1,2,3,4]
-       month.add_day(2).calls = [1,2]
-       expect(month.minmax_count).to eq([2,4])
+       month = Luned::Month.build_from_api(2019, 2)
+       expect(month.minmax_count).to eq([223,353])
      end
    end
 

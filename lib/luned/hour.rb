@@ -21,11 +21,11 @@ class Luned::Hour
   end
 
   def new_call(time, address, type, incident_number)
-    Luned::Call.new(self, time, address, type, incident_number).tap { |call| @calls << call }
+    Luned::Call.new(time, address, type, incident_number).tap { |call| @calls << call }
   end
 
   def new_observation(time, summary, temperature, pressure)
-    Luned::Observation.new(self, time, summary, temperature, pressure).tap { |obs| @observation = obs }
+    Luned::Observation.new(time, summary, temperature, pressure).tap { |obs| @observation = obs }
   end
 
   def self.all

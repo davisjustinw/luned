@@ -6,6 +6,8 @@ describe "API" do
   #@ 3 10 0200 => 0300 -7 offset Start PDT end PST
   #to 11 3 0200 => 0100 -8 offset Start PST end PDT
 
+
+
 =begin
   describe "#get_calls" do
     it "receives array with year and month, returns an array of hashes with count and day" do

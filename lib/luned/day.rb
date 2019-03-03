@@ -13,12 +13,12 @@ class Luned::Day
   end
 
   def self.new_with_int(year, month, day)
-    self.new(Time.new(year, month, day))
+    self.new(Time.new(year, month, day)) if valid?(year, month, day)
   end
 
   def new_hour(hour)
     Luned::Hour.new_with_int(@time.year, @time.month, @time.day, hour.hour).tap do |hour|
-      @hours[hour.time] = hour
+      @hours[hour.time.hour] = hour
     end
   end
 
@@ -36,9 +36,13 @@ class Luned::Day
 
     while !@@api.hourly_observation_rows.empty? do
       row = @@api.next_hourly_observation_row
-      add_hour(row[:time].hour) if !hours.key?(row[:time])
-      hours[row[:time]].new_observation(row[:time], row[:summary], row[:temperature], row[:pressure])
+      new_hour(row[:time]) if !hours.key?(row[:time].hour)
+      hours[row[:time].hour].new_observation(row[:time], row[:summary], row[:temperature], row[:pressure])
     end
+  end
+
+  def count
+    hours.inject(0) { |count, hour| count + hour.last.count }
   end
 
   def is
@@ -53,10 +57,6 @@ class Luned::Day
     @time.year
   end
 
-  def self.create(month, day)
-    self.new(month, day) if valid?(month, day)
-  end
-
   def self.include?(time)
     @@all.key?(Time.new(time.year, time.month, time.day))
   end
@@ -69,9 +69,8 @@ class Luned::Day
     @time.strftime("%w").to_i
   end
 
-
-
   def minmax_count
+    #needs work
     (0..23).collect { |hour| count_by_hour(hour) }.minmax
   end
 
@@ -87,8 +86,8 @@ class Luned::Day
     @@all.clear
   end
 
-  def self.valid?(month, day)
-    DateTime.valid_date?(month.year, month.is, day.to_i)
+  def self.valid?(year, month, day)
+    DateTime.valid_date?(year, month, day)
   end
 
 end
