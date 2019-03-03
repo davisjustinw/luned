@@ -1,57 +1,45 @@
 class Luned::View
 
-  def initialize
-  end
-
-  def display
-
-  end
   def month(month)
     calendar = ["| Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
 
     month.days.each do |day|
+      day = day.last
       calendar += Array.new(day.weekday, "|    ") if day.is == 1
       entry = add_heat(day.is.to_s.rjust(2,"0"), day.count, month.minmax_count)
       calendar << "| #{entry} "
       calendar << "| \n " if day.weekday == 6
     end
-    #binding.pry
     calendar.each { |x| print x }
   end
 
-
   def day(day)
-    puts ""
+    print "\n"
     print "#{day.summary}\n"
     print "#{moon(day.moonphase)} - #{day.low}F #{day.high}F - #{day.pressure}mb\n"
-    puts ""
-    chart = day.observations.inject("") do |chart, observation|
-      time = observation.time
-      entry = add_heat(time.strftime("%H%M"), day.count_by_hour(time.hour), day.minmax_count)
+    print "\n"
+
+    chart = day.hours.inject("") do |chart, hour|
+      hour = hour.last
+      time = hour.time
+      entry = add_heat(time.strftime("%H:%M"), hour.count, day.minmax_count)
       chart += "| #{entry} "
       chart +=  "| \n" if (time.hour + 1) % 5 == 0
       chart
     end
     print chart
 
-    puts ''
+    print "\n"
   end
 
   def hour(hour)
-    #display_observation
-    #each display_incident
-    puts "Temp: 45f, Barometer: 30in, Barometer Change: .5"
-    puts "Aid 1, Medic 9, Total 10"
-    puts "Aid - 517 3rd Ave - A5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
-    puts "Medic - 2030 3rd Ave - M5, E5"
+    print "#{hour.count} calls\n"
+    print "#{hour.observation.summary}\n"
+    print "#{hour.observation.temperature}F - #{hour.observation.pressure}mb\n\n"
+    hour.calls.each do |call|
+      print "#{call.time.strftime("%H:%M")} - #{call.incident_number} - #{call.type} - #{call.address}\n"
+    end
+    print "\n"
   end
 
   def moon(phase)

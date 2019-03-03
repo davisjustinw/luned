@@ -1,6 +1,7 @@
 describe "View" do
-  month = Luned::Month.build(2019,1)
+  month = Luned::Month.build_from_api(2019,1)
   view = Luned::View.new
+  month.days[1].build_observations
 
   describe "#heat" do
     it "takes a string a value and minmax then applies heat gradient styling" do
@@ -37,11 +38,15 @@ describe "View" do
 
   describe "#day" do
     it "print the day with hotness" do
-      month.days.first.build_observations
-      view.day(month.days.first)
+      view.day(month.days[1])
       puts ''
     end
   end
 
+  describe "#hour" do
+    it "print the hours observation and calls" do
+      view.hour(month.days[1].hours[0])
+    end
+  end
 
 end

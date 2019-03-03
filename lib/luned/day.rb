@@ -70,8 +70,8 @@ class Luned::Day
   end
 
   def minmax_count
-    #needs work
-    (0..23).collect { |hour| count_by_hour(hour) }.minmax
+    min, max = hours.minmax_by { |hour| hour.last.count }
+    minmax = min.last.count, max.last.count
   end
 
   def self.get(time)
