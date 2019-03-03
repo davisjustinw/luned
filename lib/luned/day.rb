@@ -45,6 +45,10 @@ class Luned::Day
     end
   end
 
+  def build_observations_as_needed
+    build_observations if !@summary
+  end
+
   def count
     hours.inject(0) { |count, hour| count + hour.last.count }
   end

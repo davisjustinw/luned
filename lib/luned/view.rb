@@ -8,14 +8,14 @@ class Luned::View
       time = Time.new(*args)
       Luned::Month.get_or_build(time.year, time.month).\
         get_or_new_day(time).tap do |obj|
-          obj.build_observations
+          obj.build_observations_as_needed
           day(obj)
         end
     when 4
       time = Time.new(*args)
       Luned::Month.get_or_build(time.year, time.month).tap do |obj|
         obj.get_or_new_day(time).tap do |obj|
-          obj.build_observations
+          obj.build_observations_as_needed
           hour(obj.get_or_new_hour(time))
         end
       end

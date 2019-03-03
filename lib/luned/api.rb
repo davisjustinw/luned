@@ -22,7 +22,7 @@ class Luned::API
   end
 
   def get_call_rows(month)
-    puts "api called"
+    puts "getting call_rows"
     puts ""
     Time.zone = "Pacific Time (US & Canada)"
     start = Time.utc(month.year, month.is)
@@ -49,6 +49,7 @@ class Luned::API
   end
 
   def get_weather(year, month, day)
+    puts "getting weather"
     location = "47.609400,-122.336345"
     time = Time.new(year, month, day).utc.to_i.to_s
     url = "#{@weather_url}#{@weather_token}/#{location},#{time}?exclude=flags,offset"
