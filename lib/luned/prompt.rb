@@ -8,16 +8,56 @@ class Luned::Prompt
     @arg = ''
   end
 
-  def get_args
-    @args = gets.chomp.split
-  end
-
   def display_breadcrumb
     print  "#{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
   end
 
+  def get_args
+    @args = gets.chomp.split
+  end
+
   def quit?
     true if args.detect { |arg| arg.downcase == 'q'}
+  end
+
+  def valid_args?
+    @args.all? {|arg| arg =~/q|[..]|[0-9]+$*/}
+  end
+
+  def up
+    while @args.first == '..'
+      @args.shift
+      @breadcrumb.pop
+    end
+  end
+
+  def int_from(arg)
+    arg.to_i if arg.to_i.to_s == arg
+  end
+
+  def submit_args
+    up
+    @args.each do |arg|
+        int_from(arg).tap do |int|
+          valid_time?(int) ? @breadcrumb << int : break
+        end
+    end
+    @args.clear
+  end
+
+  def valid_time?(arg)
+    case @breadcrumb.size
+    when 0
+      valid_year?(arg)
+    when 1
+      valid_month?(arg)
+    when 2
+      valid_day?(arg)
+    when 3
+      valid_hour?(arg)
+    else
+      false
+    end
   end
 
   def valid_year?(int)
@@ -38,29 +78,6 @@ class Luned::Prompt
     input_date && input_date.between?(min_date, Date.today)
   end
 
-  def hour?(int)
-    int.between?(0,23) if int
-  end
-
-  def before_today?
-    year, month, day = @breadcrumb
-    Date.new(year, month, day) < Date.today
-  end
-
-  def int_from(arg)
-    arg.to_i if arg.to_i.to_s == arg
-  end
-
-  def submit_args
-    up
-    @args.each do |arg|
-        int_from(arg).tap do |int|
-          valid_arg?(int) ? @breadcrumb << int : break
-        end
-    end
-    @args.clear
-  end
-
   def valid_hour?(int)
     year, month, day = @breadcrumb
     this_datetime = DateTime.new(year, month, day, int) if hour?(int)
@@ -74,26 +91,20 @@ class Luned::Prompt
     end
   end
 
-  def up
-    while @args.first == '..'
-      @args.shift
-      @breadcrumb.pop
-    end
+  def hour?(int)
+    #fix this
+    int.between?(0,23) if int
   end
 
-  def valid_arg?(arg)
-    case @breadcrumb.size
-    when 0
-      valid_year?(arg)
-    when 1
-      valid_month?(arg)
-    when 2
-      valid_day?(arg)
-    when 3
-      valid_hour?(arg)
-    else
-      false
-    end
-  end
+
+
+
+
+
+
+
+
+
+
 
 end

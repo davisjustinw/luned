@@ -16,7 +16,6 @@ class Luned::Controller
     puts "\u{1F311} \u{1F312} \u{1F313} \u{1F314} \u{1F315} \u{1F316} \u{1F317} \u{1F318} \u{1F311}"
     puts ''
     control_prompt
-
   end
 
   def prompt
@@ -31,17 +30,13 @@ class Luned::Controller
     @view
   end
 
-
-
   def control_prompt
     while !prompt.quit? do
       prompt.display_breadcrumb
       prompt.get_args
-      if !prompt.quit?
+      if !prompt.quit? && prompt.valid_args?
         prompt.submit_args
-        view.display(breadcrumb)
-        #api.get(breadcrumb)
-        #view.display(breadcrumb)
+        view.display(breadcrumb)  
       end
     end
   end
