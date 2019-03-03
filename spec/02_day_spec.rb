@@ -44,13 +44,7 @@ describe "Day" do
     end
   end
 
-  describe ".delete_all" do
-    it ".all return an empty array after call" do
-      4.times {Luned::Day.new_with_int(2019, 3, 1)}
-      Luned::Day.delete_all
-      expect(Luned::Day.all).to eq({})
-    end
-  end
+  
 
   describe ".valid?" do
     it "returns true if valid parameters for month" do

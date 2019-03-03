@@ -32,12 +32,4 @@ class Luned::Hour
     @@all
   end
 
-  def self.include?(time)
-    @@all.key?(time)
-  end
-
-  def self.delete_all
-    @@all.clear
-  end
-
 end

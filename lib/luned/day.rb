@@ -7,9 +7,9 @@ class Luned::Day
 
 
   def initialize(time)
-      @time = time
-      @hours = {}
-      add
+    @time = time
+    @hours = {}
+    add
   end
 
   def self.new_with_int(year, month, day)
@@ -17,7 +17,7 @@ class Luned::Day
   end
 
   def new_hour(hour)
-    Luned::Hour.new_with_int(@time.year, @time.month, @time.day, hour.hour).tap do |hour|
+    Luned::Hour.new_with_int(year, month, is, hour.hour).tap do |hour|
       @hours[hour.time.hour] = hour
     end
   end
@@ -27,7 +27,7 @@ class Luned::Day
   end
 
   def build_observations
-    daily = @@api.get_weather(@time.year, @time.month, @time.day)
+    daily = @@api.get_weather(year, month, is)
     @summary = daily["summary"]
     @high = daily["temperatureHigh"]
     @low = daily["temperatureLow"]
@@ -57,10 +57,6 @@ class Luned::Day
     @time.year
   end
 
-  def self.include?(time)
-    @@all.key?(Time.new(time.year, time.month, time.day))
-  end
-
   def add
     @@all[self.time] = self
   end
@@ -74,16 +70,8 @@ class Luned::Day
     minmax = min.last.count, max.last.count
   end
 
-  def self.get(time)
-    @@all[Time.new(time.year, time.month, time.day)]
-  end
-
   def self.all
     @@all
-  end
-
-  def self.delete_all
-    @@all.clear
   end
 
   def self.valid?(year, month, day)
