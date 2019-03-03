@@ -1,7 +1,21 @@
 class Luned::View
 
+  def display(args)
+    case args.size
+    when 2
+      month(Luned::Month.get_or_build(*args))
+    when 3
+      #day
+    when 4
+      #hour
+    else
+      nil
+    end
+  end
+
   def month(month)
-    calendar = ["| Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
+    print "\n"
+    calendar = [" | Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
 
     month.days.each do |day|
       day = day.last
@@ -11,6 +25,7 @@ class Luned::View
       calendar << "| \n " if day.weekday == 6
     end
     calendar.each { |x| print x }
+    print "\n"
   end
 
   def day(day)

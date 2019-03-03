@@ -2,4 +2,4 @@
 
 require_relative "../lib/luned"
 
-Luned::CLI.new.start
+Luned::Controller.new.start

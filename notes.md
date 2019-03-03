@@ -40,6 +40,7 @@
   * Using Time except for Valid_Date.  Can't use -1 trick for day in Time
   * Revisit Setting month to maximum days.
   * Using TIme on all objects and not storing objects
+  * How I learned to write the code I wish I had and returned from despair
 
 ## Notes
 

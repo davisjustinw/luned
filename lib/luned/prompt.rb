@@ -17,7 +17,7 @@ class Luned::Prompt
   end
 
   def quit?
-    true if arg.downcase == 'q'
+    true if args.detect { |arg| arg.downcase == 'q'}
   end
 
   def valid_year?(int)

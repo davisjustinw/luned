@@ -12,7 +12,7 @@ class Luned::Month
   end
 
   def self.new_with_int(year, month)
-    self.new(Time.new(year.to_i, month.to_i, Time.days_in_month(month, year)))
+    self.new(Time.new(year.to_i, month.to_i, Time.days_in_month(month.to_i, year.to_i)))
   end
 
   def self.create(year, month)
@@ -26,6 +26,15 @@ class Luned::Month
         row = @@api.next_call_row
         month.new_call(row[:time], row[:address], row[:type], row[:incident_number])
       end
+    end
+  end
+
+  def self.get_or_build(year, month)
+    time = Time.new(year.to_i, month.to_i, Time.days_in_month(month.to_i, year.to_i))
+    if @@all.key?(time)
+      @@all[time]
+    else
+      build_from_api(year, month)
     end
   end
 

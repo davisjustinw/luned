@@ -22,6 +22,8 @@ class Luned::API
   end
 
   def get_call_rows(month)
+    puts "api called"
+    puts ""
     Time.zone = "Pacific Time (US & Canada)"
     start = Time.utc(month.year, month.is)
     finish = start.end_of_month.in_time_zone
