@@ -1,17 +1,17 @@
 describe "Month" do
 
   describe ".all" do
-    it ".all includes newly created Month object" do
-      obj = Luned::Month.create('1999', '12')
-      expect(Luned::Month.all).to include(obj)
+    it "includes newly created Month object" do
+      obj = Luned::Month.create(1999, 12)
+      expect(Luned::Month.all[obj.time]).to eq(obj)
     end
   end
 
   describe "#add" do
     it "adds month to all" do
-      month = Luned::Month.new(2019, 2)
+      month = Luned::Month.create(2019, 2)
       month.add
-      expect(Luned::Month.all).to include(month)
+      expect(Luned::Month.all[month.time]).to eq(month)
     end
   end
 
@@ -25,22 +25,22 @@ describe "Month" do
      end
    end
 
-   describe ".build" do
+   describe ".build_from_api" do
      it "initializes a month object and loads with day and calls from the api" do
-       built = Luned::Month.build(2018, 2)
+       built = Luned::Month.build_from_api(2018, 2)
 
        expect(built).to be_an_instance_of(Luned::Month)
-       expect(built.days).not_to be_empty
-       expect(built.days[0].calls).not_to be_empty
+       expect(built.days.keys).to be_truthy
+       expect(built.count_calls).to be > 0
      end
    end
 
-   describe "#add_day" do
+   describe "#new_day" do
      it "create day object adds it to the month and returns the instance" do
        month = Luned::Month.create(2019, 2)
-       day = month.add_day(1)
+       day = month.new_day(1)
        expect(day).to be_an_instance_of(Luned::Day)
-       expect(month.days).to include(day)
+       expect(month.days[day.time.day]).to eq(day)
      end
    end
 
@@ -54,10 +54,10 @@ describe "Month" do
    end
 
    describe ".delete_all" do
-     it ".all returns an empty array after call" do
+     it ".all returns an empty hash after call" do
        4.times {Luned::Month.create(Date.today.year, Date.today.month)}
        Luned::Month.delete_all
-       expect(Luned::Month.all).to eq([])
+       expect(Luned::Month.all).to eq({})
      end
    end
 

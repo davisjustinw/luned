@@ -15,7 +15,7 @@ describe "Day" do
     it ".all includes newly created Day object" do
       month = Luned::Month.new(1999, 2)
       obj = Luned::Day.create(month, '1')
-      expect(Luned::Day.all).to include(obj)
+      expect(Luned::Day.all[obj.time]).to eq(obj)
     end
   end
 
@@ -24,46 +24,24 @@ describe "Day" do
       month = Luned::Month.new(2019, 2)
       day = Luned::Day.new(month, 3)
       day.add
-      expect(Luned::Day.all).to include(day)
-    end
-  end
-
-  describe "#new_call" do
-    it "creates new call and adds it to the day" do
-      month = Luned::Month.new(2019, 2)
-      day = Luned::Day.new(month, 3)
-      call = day.new_call('2345', '1234 bob', 'aid', '12345')
-
-      expect(call).to be_an_instance_of(Luned::Call)
-      expect(day.calls).to include(call)
-    end
-  end
-
-  describe "#new_observation" do
-    it "creates new observation and adds it to the day" do
-      month = Luned::Month.new(2019, 2)
-      day = Luned::Day.new(month, 3)
-      observation = day.new_observation(2300, 'Cloudy', '43', '1001')
-
-      expect(observation).to be_an_instance_of(Luned::Observation)
-      expect(day.observations).to include(observation)
+      expect(Luned::Day.all[day.time]).to eq(day)
     end
   end
 
   describe "#build_observations" do
-    it "fills out the Day object with observation objects filled wil dark sky data" do
+    it "fills out the Days hour objects with observation objects filled wil dark sky data" do
       month = Luned::Month.new(2019, 2)
       day = Luned::Day.new(month, 3)
       day.build_observations
-
-      expect(day.observations).not_to be_empty
+      expect(day.hours[day.hours.keys.sample].observation).to be_truthy
       expect(day.summary).not_to be_empty
-      expect(day.observations.size).to be(24)
+      expect(day.hours.size).to be(24)
     end
   end
 
   describe "#count" do
     it "returns number of calls associated with the day" do
+      #need to fix
       month = Luned::Month.create(2019, 2)
       day = Luned::Day.new(month, 1)
       day.calls = [1,2,3,4]
@@ -76,7 +54,7 @@ describe "Day" do
       month = Luned::Month.create(2019, 2)
       4.times {Luned::Day.create(month, 1)}
       Luned::Day.delete_all
-      expect(Luned::Day.all).to eq([])
+      expect(Luned::Day.all).to eq({})
     end
   end
 

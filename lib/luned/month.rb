@@ -2,29 +2,48 @@ class Luned::Month
 
   attr_reader :time, :days
 
-  @@all = []
+  @@all = {}
   @@api = Luned::API.new
 
-  def initialize(year, month)
-      @time = Time.new(year.to_i, month.to_i, Time.days_in_month(month.to_i, year.to_i))
-      @days = []
+  def initialize(time)
+      @time = time
+      @days = {}
       add
   end
 
-  def self.create(year, month)
-    self.new(year, month) if valid?(year, month)
+  def self.new_with_int(year, month)
+    self.new(Time.new(year.to_i, month.to_i, Time.days_in_month(month, year)))
   end
 
-  def self.build(year, month)
+  def self.create(year, month)
+    self.new_with_int(year.to_i, month.to_i) if valid?(year, month)
+  end
+
+  def self.build_from_api(year, month)
     create(year, month).tap do |month|
-      day = nil
       @@api.get_call_rows(month)
       while !@@api.call_rows.empty? do
         row = @@api.next_call_row
-        day = month.add_day(row[:time].day) if !day || day.is != row[:time].day
-        day.new_call(row[:time], row[:address], row[:type], row[:incident_number])
+        month.new_call(row[:time], row[:address], row[:type], row[:incident_number])
       end
     end
+  end
+
+  def new_call(time, address, type, incident_number)
+    get_or_new_hour(time).new_call(time, address, type, incident_number)
+  end
+
+  def get_or_new_hour(time)
+    get_or_new_day(time).hour(time) || get_or_new_day(time).new_hour(time)
+  end
+
+  def get_or_new_day(time)
+    (@days[time.day] if @days.key?(time.day)) || new_day(time.day)
+  end
+
+  def new_day(day)
+    daytime = Time.new(@time.year, @time.month, day)
+    Luned::Day.new(daytime).tap { |day| @days[daytime.day] = day }
   end
 
   def count_calls
@@ -32,12 +51,10 @@ class Luned::Month
   end
 
   def add
-    @@all << self
+    @@all[self.time] = self
   end
 
-  def add_day(day)
-    Luned::Day.new(self, day).tap { |day| @days << day }
-  end
+
 
   def minmax_count
     min, max = days.minmax_by { |day| day.count }
@@ -62,6 +79,10 @@ class Luned::Month
 
   def self.all
     @@all
+  end
+
+  def self.include?(time)
+    @@all.key?(Time.new(time.year, time.month))
   end
 
   def self.delete_all

@@ -1,7 +1,7 @@
 class Luned::Observation
   attr_reader :day, :time, :summary, :temperature, :pressure
 
-  @@all = []
+  @@all = {}
 
   def initialize(day, time, summary, temperature, pressure)
     @day = day
@@ -9,7 +9,7 @@ class Luned::Observation
     @summary = summary
     @temperature = temperature
     @pressure = pressure
-    @@all << self
+    @@all[self.time] = self
   end
 
   def self.all

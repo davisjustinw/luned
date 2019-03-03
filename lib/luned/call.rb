@@ -1,10 +1,10 @@
 class Luned::Call
-  attr_reader :day, :time, :type, :address, :incident_number
+  attr_reader :hour, :time, :type, :address, :incident_number
 
   @@all = []
 
-  def initialize(day, time, address, type, incident_number)
-    @day = day
+  def initialize(hour, time, address, type, incident_number)
+    @hour = hour 
     @time = time
     @address = address
     @type = type
