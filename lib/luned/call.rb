@@ -1,10 +1,10 @@
+## Represents a 911 call.
 class Luned::Call
   attr_reader :time, :type, :address, :incident_number
 
   @@all = []
 
   def initialize(time, address, type, incident_number)
-    #@hour = hour
     @time = time
     @address = address
     @type = type

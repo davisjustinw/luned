@@ -1,10 +1,10 @@
+## Represents a weather observation.
 class Luned::Observation
   attr_reader :time, :summary, :temperature, :pressure
 
   @@all = {}
 
   def initialize(time, summary, temperature, pressure)
-    #@day = day
     @time = time
     @summary = summary
     @temperature = temperature
