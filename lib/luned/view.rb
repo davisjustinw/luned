@@ -1,3 +1,7 @@
+## Displays prompted data.
+# #display prints view based on breadcrumb state.
+# When local memory doesn't hold the appropriate object view calls the data model objects
+# to build themselves calling the API when needed.
 class Luned::View
 
   def greeting
@@ -18,6 +22,8 @@ class Luned::View
   end
 
   def display(args)
+    # Gets or builds data models based on breadcrumb state,
+    # building weather and call data as needed.
     case args.size
     when 2
       month(Luned::Month.get_or_build(*args))
@@ -36,13 +42,14 @@ class Luned::View
           hour(obj.get_or_new_hour(time))
         end
       end
-
     else
       nil
     end
   end
 
   def month(month)
+    # Display month object.  Red background intensifies with increased call counts
+    # using add_heat.
     print "\n"
     print " ------------- #{month.time.strftime("%b %Y")} ------------- \n\n"
     calendar = [" | Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
@@ -60,6 +67,8 @@ class Luned::View
   end
 
   def day(day)
+    # Display day object.  Red background intensifies with increased call counts
+    # using add_heat.  Display summary weather data and lunar phase for the day.
     print "\n"
     print "-------------- #{day.time.strftime("%d %b %Y")} --------------\n\n"
     chart = day.hours.inject("") do |chart, hour|
@@ -78,6 +87,7 @@ class Luned::View
   end
 
   def hour(hour)
+    # Display 911 call detail with hourly weather entry.
     print "\n"
     print "-------------- #{hour.time.strftime("%d %b %Y %H:%M %Z")} --------------\n\n"
     hour.calls.each do |call|
@@ -90,11 +100,14 @@ class Luned::View
   end
 
   def moon(phase)
+    # Displays ANSI moon phase emoji based on lunar phase.
     icons = {"0.0"=>"\u{1F311}", "0.125"=>"\u{1F312}", "0.25"=>"\u{1F313}", "0.375"=>"\u{1F314}", "0.5"=>"\u{1F315}", "0.625"=>"\u{1F316}", "0.75"=>"\u{1F317}", "0.875"=>"\u{1F318}", "1.0"=>"\u{1F311}"}
     icons[phase.round_to(0.125).to_s]
   end
 
   def add_heat(text, value, minmax)
+    # Applies red background with increasing intensity to text based on value's
+    # relationship with min and max.
     min, max = minmax
     colors = ['16','52','88','124','160','196']
     section = (max - min) / 6.0
@@ -104,11 +117,4 @@ class Luned::View
     "\e[48;5;#{color_code}m#{text}\e[0m"
   end
 
-  def colorize(text, color_code)
-    "\e[30;#{color_code}m#{text}\e[0m"
-  end
-
-  def red(text); colorize(text, "101"); end
-  def yellow(text); colorize(text, "103"); end
-  def green(text); colorize(text, "102"); end
 end
