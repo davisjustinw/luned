@@ -19,6 +19,7 @@ class Luned::View
           hour(obj.get_or_new_hour(time))
         end
       end
+
     else
       nil
     end

@@ -19,6 +19,13 @@ Or install it yourself as:
 
     $ gem install Luned
 
+The two APIs this project uses require tokens.
+
+Register for a Dark Sky token here: https://darksky.net/dev/register
+And a Socrata token here: https://opendata.socrata.com/login
+
+Create a .env file in your project's root folder
+
 ## Usage
 
 TODO: Write usage instructions here
@@ -31,7 +38,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/'davisjustinw'/weather911. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/davisjustinw/luned. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -39,4 +46,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Weather911 project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/'davisjustinw'/luned/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Luned project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/davisjustinw/luned/blob/master/CODE_OF_CONDUCT.md).

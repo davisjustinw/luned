@@ -3,16 +3,16 @@ class Luned::API
   attr_reader :call_rows, :hourly_observation_rows
 
   def initialize
-    if ENV['seattle_token']
-      @seattle_token = "$$app_token=#{ENV['seattle_token']}"
+    if ENV['socrata']
+      @socrata = "$$app_token=#{ENV['socrata']}"
     else
-      @seattle_token = ''
+      @socrata = ''
     end
 
     if ENV['dark_sky']
-      @weather_token = ENV['dark_sky']
+      @dark_sky = ENV['dark_sky']
     else
-      @weather_token = ''
+      @dark_sky = ''
     end
       @seattle_url = "https://data.seattle.gov/resource/grwu-wqtk.json?"
       @weather_url = "https://api.darksky.net/forecast/"
@@ -34,7 +34,7 @@ class Luned::API
     str += "and '#{finish.year}-#{finish.month}-#{finish.day}T#{finish.hour}:#{finish.min}:00.000'"
     str += "&$order=datetime&$limit=20000"
     query = URI.encode(str)
-    parameter = "#{@seattle_url}#{query}&#{@seattle_token}"
+    parameter = "#{@seattle_url}#{query}&#{@socrata}"
     @call_rows += HTTParty.get("#{@seattle_url}#{query}").parsed_response
   end
 
@@ -52,7 +52,7 @@ class Luned::API
     puts "getting weather"
     location = "47.609400,-122.336345"
     time = Time.new(year, month, day).utc.to_i.to_s
-    url = "#{@weather_url}#{@weather_token}/#{location},#{time}?exclude=flags,offset"
+    url = "#{@weather_url}#{@dark_sky}/#{location},#{time}?exclude=flags,offset"
     response = HTTParty.get(url).parsed_response
     @hourly_observation_rows += response["hourly"]["data"]
     response["daily"]["data"].first

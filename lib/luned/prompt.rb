@@ -41,6 +41,11 @@ class Luned::Prompt
     @args.clear
   end
 
+  def pop_hour
+    @breadcrumb.pop if @breadcrumb.size == @@PROMPTS.size
+  end 
+
+
   def valid_time?(arg)
     case @breadcrumb.size
     when 0
