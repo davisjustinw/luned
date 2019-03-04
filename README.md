@@ -1,6 +1,6 @@
 # Luned
 
-Inspired by tales of the moon and weather's affect on Emergency services, Luned pulls Seattle's public 911 data and combines with hourly weather and lunar phase data.
+Inspired by tales of the moon and weather's affect on emergency services, Luned makes colorful display of Seattle's public 911 data combined with hourly weather and lunar phase data.
 
 ## Installation
 Install:
