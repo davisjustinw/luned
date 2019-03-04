@@ -53,16 +53,20 @@ class Luned::View
     # using add_heat.
     print "\n"
     print " ------------- #{month.time.strftime("%b %Y")} ------------- \n\n"
-    calendar = [" | Su ", "| Mo ", "| Tu ", "| We ", "| Th ", "| Fr ", "| Sa ", "| \n "]
+    print " | Su | Mo | Tu | We | Th | Fr | Sa | \n "
+    calendar = ""
 
     month.days.each do |day|
       day = day.last
-      calendar += Array.new(day.weekday, "|    ") if day.is == 1
+      # Position day 1 under the correst weekday.
+      calendar += "|    " * day.weekday if day.is == 1
+      # Add red backgrounds and leading zeros
       entry = add_heat(day.is.to_s.rjust(2,"0"), day.count, month.minmax_count)
-      calendar << "| #{entry} "
-      calendar << "| \n " if day.weekday == 6
+      calendar += "| #{entry} "
+      # End of the week newline
+      calendar += "| \n " if day.weekday == 6
     end
-    calendar.each { |x| print x }
+    print calendar
     print "\n"
     print " ------------------------------------\n\n"
   end
