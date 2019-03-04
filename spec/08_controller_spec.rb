@@ -1,5 +1,4 @@
-require "spec_helper"
-require "pry"
+
 describe "Controller" do
   describe "#new" do
     it "initializes with a Prompt, API and View objects" do
@@ -10,11 +9,5 @@ describe "Controller" do
       expect(control.prompt).to be_an_instance_of(Luned::Prompt)
     end
   end
-
-
-
-
-  # 2003 11 7 to today
-
 
 end

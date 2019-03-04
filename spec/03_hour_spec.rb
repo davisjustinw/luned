@@ -1,3 +1,4 @@
+
 describe "Hour" do
 
   describe "#new" do

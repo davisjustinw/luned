@@ -1,4 +1,4 @@
-#require "spec_helper"
+
 describe "Day" do
 
  describe ".new_with_int" do
@@ -44,7 +44,7 @@ describe "Day" do
     end
   end
 
-  
+
 
   describe ".valid?" do
     it "returns true if valid parameters for month" do

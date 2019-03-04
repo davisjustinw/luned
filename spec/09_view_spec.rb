@@ -1,3 +1,4 @@
+
 describe "View" do
   month = Luned::Month.build_from_api(2019,1)
   view = Luned::View.new

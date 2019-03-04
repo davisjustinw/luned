@@ -1,3 +1,4 @@
+
 describe "Observation" do
   describe ".new" do
     it "initializes Observation" do
