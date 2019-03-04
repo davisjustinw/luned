@@ -1,7 +1,10 @@
+## Top level Data object.  Holds Day objects and holds a bulk of the methods
+# responsible for GET calls to API.
 class Luned::Month
 
   attr_reader :time, :days
-
+  # @@all and collections of most objects like @days use hashes for speed and
+  # tighter calls.
   @@all = {}
   @@api = Luned::API.new
 
@@ -12,24 +15,19 @@ class Luned::Month
   end
 
   def self.new_with_int(year, month)
+    # Initialize a Month with integers instead of a time object.  Will convert
+    # string parameters to ints.  Day is instansiated to number of days in the
+    # month to make some calcs later on cleaner.
     self.new(Time.new(year.to_i, month.to_i, Time.days_in_month(month.to_i, year.to_i)))
   end
 
   def self.create(year, month)
+    # Same as above but with validation.
     self.new_with_int(year.to_i, month.to_i) if valid?(year, month)
   end
 
-  def self.build_from_api(year, month)
-    create(year, month).tap do |month|
-      @@api.get_call_data(month)
-      while !@@api.call_rows.empty? do
-        row = @@api.next_call_row
-        month.new_call(row[:time], row[:address], row[:type], row[:incident_number])
-      end
-    end
-  end
-
   def self.get_or_build(year, month)
+    # Return appropriate Month object or build one from API
     time = Time.new(year.to_i, month.to_i, Time.days_in_month(month.to_i, year.to_i))
     if @@all.key?(time)
       @@all[time]
@@ -38,6 +36,22 @@ class Luned::Month
     end
   end
 
+  def self.build_from_api(year, month)
+    # Instantiate Month object populating with 911 call data.
+    create(year, month).tap do |month|
+      @@api.get_call_data(month)
+
+      # While buffer is full, pull rows and create Call objects.
+      # #new_call sets off a cascade of method calls to create parent objects where
+      # none exist.
+      while !@@api.call_rows.empty? do
+        row = @@api.next_call_row
+        month.new_call(row[:time], row[:address], row[:type], row[:incident_number])
+      end
+    end
+  end
+
+  # Get or build cascade
   def new_call(time, address, type, incident_number)
     get_or_new_hour(time).new_call(time, address, type, incident_number)
   end
@@ -54,18 +68,27 @@ class Luned::Month
     daytime = Time.new(@time.year, @time.month, day)
     Luned::Day.new(daytime).tap { |day| @days[daytime.day] = day }
   end
+  # End get or build cascade
 
   def count_calls
+    # Number of 911 call in the month.
     days.inject(0) { |sum, day| sum += day.count }
   end
+
+  def minmax_count
+    # Minimum and Maximum call sums for the month. Used for add_heat in View.
+    min, max = days.minmax_by { |day| day.last.count }
+    minmax = min.last.count, max.last.count
+  end
+
+  # Support methods
 
   def add
     @@all[self.time] = self
   end
 
-  def minmax_count
-    min, max = days.minmax_by { |day| day.last.count }
-    minmax = min.last.count, max.last.count
+  def self.all
+    @@all
   end
 
   def year
@@ -74,10 +97,6 @@ class Luned::Month
 
   def is
     @time.month
-  end
-
-  def self.all
-    @@all
   end
 
   def self.valid?(year, month)
