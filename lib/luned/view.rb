@@ -16,13 +16,14 @@ class Luned::View
 
   def credits
     print "\n======================================\n\n"
-    print " - Powered by Dark Sky:\n    https://darksky.net/poweredby/\n\n"
-    print " - Socrata & Seattle 911:\n    https://dev.socrata.com/foundry/data.seattle.gov/grwu-wqtk\n\n"
+    print "Powered by\n\n"
+    print " - Dark Sky:\n    https://darksky.net/poweredby\n\n"
+    print " - Socrata & The City of Seattle:\n    https://dev.socrata.com/foundry/data.seattle.gov/grwu-wqtk\n\n"
     print " - Justin Davis, 2019:\n    https://github.com/davisjustinw/luned\n\n"
   end
 
   def display(args)
-    # Gets or builds data models based on breadcrumb state,
+    # Gets or builds data objects based on breadcrumb state,
     # building weather and call data as needed.
     case args.size
     when 2
