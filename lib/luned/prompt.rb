@@ -1,18 +1,24 @@
+## Controls User input and breadcrumb Navigation
+# PROMPTS: Template for visual prompt
+# Breadcrumb: Current state or data level
+# Args: Buffer for un-validated user input
+
 class Luned::Prompt
   @@PROMPTS = ["<yyyy>", "<mm>", "<dd>", "<hr24>"]
-  attr_accessor :breadcrumb, :arg, :args
+  attr_reader :breadcrumb, :args
 
   def initialize
     @breadcrumb = []
     @args = []
-    @arg = ''
   end
 
   def display_breadcrumb
-    print  "#{@breadcrumb.join(" ")} #{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
+    # Prints current level and prompt for deeper level
+    print "#{@breadcrumb.join(" ")} #{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
   end
 
   def get_args
+    # user input
     @args = gets.chomp.split
   end
 
@@ -21,10 +27,12 @@ class Luned::Prompt
   end
 
   def valid_args?
+    # test for 'q', '..', and integers.
     @args.all? {|arg| arg =~/q|[..]|[0-9]+$*/}
   end
 
   def up
+    # Handles navigation up the domain model.
     while @args.first == '..'
       @args.shift
       @breadcrumb.pop
@@ -32,6 +40,7 @@ class Luned::Prompt
   end
 
   def submit_args
+    # Moves up the domain model validates, and adds to current state.
     up
     @args.each do |arg|
         arg.to_i.tap do |int|
@@ -42,11 +51,13 @@ class Luned::Prompt
   end
 
   def pop_hour
+    # Pops the hour off breadcrumb to allow repeated hour displays.
     @breadcrumb.pop if @breadcrumb.size == @@PROMPTS.size
-  end 
+  end
 
 
   def valid_time?(arg)
+    # Validate accoording to breadcrumb state.
     case @breadcrumb.size
     when 0
       valid_year?(arg)
@@ -62,6 +73,8 @@ class Luned::Prompt
   end
 
   def min_date
+    # Earliest consistent entries in the 911 data.
+    # Tests for valid calendar entries as well as scope of data.
     Time.new(2010, 7, 1)
   end
 
