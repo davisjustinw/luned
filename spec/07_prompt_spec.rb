@@ -4,19 +4,18 @@ describe "Prompt" do
   describe "#quit?" do
     it "returns true if arg is 'q'" do
       prompt = Luned::Prompt.new
-      prompt.arg = 'q'
+      prompt.args << "q"
 
       expect(prompt.quit?).to be_truthy
     end
 
     it "returns false if arg is not 'q'" do
       prompt = Luned::Prompt.new
-      prompt.arg = '10'
+      prompt.args << "10"
 
       expect(prompt.quit?).to be_falsey
     end
   end
-
 
   describe "#display_breadcrumb" do
     it "displays prompts" do
@@ -27,14 +26,14 @@ describe "Prompt" do
     it "displays prompts shortened prompt based on breadcrumb state" do
       prompt = Luned::Prompt.new
       prompt.breadcrumb << 1999
-      expect {prompt.display_breadcrumb}.to output("<mm> <dd> <hr24>: ").to_stdout
+      expect {prompt.display_breadcrumb}.to output(" 1999 <mm> <dd> <hr24>: ").to_stdout
     end
   end
 
   describe "#valid_year?" do
     it "returns true if the string is a valid year against the 911 data" do
       prompt = Luned::Prompt.new
-      expect(prompt.valid_year?(2004)).to be_truthy
+      expect(prompt.valid_year?(2011)).to be_truthy
     end
 
     it "string returns falsey if not a valid year against the 911 data" do
@@ -74,7 +73,7 @@ describe "Prompt" do
   describe "#valid_day?" do
     it "returns true if the string is a valid day against the breadcrumb" do
       prompt = Luned::Prompt.new
-      prompt.breadcrumb = [2010, 2]
+      prompt.breadcrumb = [2011, 2]
       expect(prompt.valid_day?(12)).to be_truthy
     end
 
@@ -92,7 +91,7 @@ describe "Prompt" do
 
     it "returns falsey if not a valid day in the future against breadcrumb" do
       prompt = Luned::Prompt.new
-      next_day = Date.today.next_day
+      next_day = Date.today.next_day.next_day
       prompt.breadcrumb = []
       prompt.breadcrumb << next_day.year
       prompt.breadcrumb << next_day.month
@@ -103,7 +102,7 @@ describe "Prompt" do
   describe "#valid_hour?" do
     it "returns true if the string is a valid hour against the breadcrumb" do
       prompt = Luned::Prompt.new
-      prompt.breadcrumb = [2010, 2, 12]
+      prompt.breadcrumb = [2011, 2, 12]
       expect(prompt.valid_hour?(12)).to be_truthy
     end
 
@@ -125,23 +124,6 @@ describe "Prompt" do
     end
   end
 
-  describe "#before_today?" do
-    it "return true if breadcrumb date is before today" do
-      prompt = Luned::Prompt.new
-      prompt.breadcrumb = [2019, 01, 29]
-
-      expect(prompt.before_today?).to be_truthy
-    end
-
-    it "return false if breadcrumb date is after today" do
-      prompt = Luned::Prompt.new
-      tomorrow = Date.today.next_day
-      prompt.breadcrumb = [tomorrow.year, tomorrow.month, tomorrow.day]
-
-      expect(prompt.before_today?).to be_falsey
-    end
-  end
-
   describe "submit_args" do
     it "saves args to the breadcrumb" do
       prompt = Luned::Prompt.new
@@ -150,24 +132,6 @@ describe "Prompt" do
       prompt.submit_args
       expect(prompt.breadcrumb).to eq([2019,1,29])
       expect(prompt.args).to eq([])
-    end
-  end
-
-  describe "#valid_arg?" do
-    it "takes a string and checks against the breadcrumb array for valid input" do
-      prompt = Luned::Prompt.new
-
-      prompt.breadcrumb = [2019, 1, 29]
-      expect(prompt.valid_arg?(9)).to be_truthy
-      expect(prompt.valid_arg?(26)).to be_falsey
-
-      prompt.breadcrumb = [2019, 2]
-      expect(prompt.valid_arg?(30)).to be_falsey
-      expect(prompt.valid_arg?(8)).to be_truthy
-
-      prompt.breadcrumb = [2019]
-      expect(prompt.valid_arg?(1)).to be_truthy
-      expect(prompt.valid_arg?(2)).to be_truthy
     end
   end
 

@@ -5,7 +5,7 @@
 
 class Luned::Prompt
   @@PROMPTS = ["<yyyy>", "<mm>", "<dd>", "<hr24>"]
-  attr_reader :breadcrumb, :args
+  attr_accessor :args, :breadcrumb
 
   def initialize
     @breadcrumb = []

@@ -1,6 +1,6 @@
 
 describe "Day" do
-
+  month = Luned::Month.build_from_api(2018, 2)
  describe ".new_with_int" do
     it "initializes a day object if the numeric year, month and day are valid" do
       expect(Luned::Day.new_with_int(1999, 2, 13)).to be_an_instance_of(Luned::Day)
@@ -27,7 +27,7 @@ describe "Day" do
 
   describe "#build_observations" do
     it "fills out the Days hour objects with observation objects filled wil dark sky data" do
-      day = Luned::Day.new_with_int(2019, 2, 3)
+      day = month.days[1]
       day.build_observations
       expect(day.hours[day.hours.keys.sample].observation).to be_truthy
       expect(day.summary).not_to be_empty
@@ -38,7 +38,7 @@ describe "Day" do
   describe "#count" do
     it "returns number of calls associated with the day" do
       #need to fix
-      month = Luned::Month.build_from_api(2018, 2)
+
       day = month.days[1]
       expect(day.count).to eq(293)
     end
