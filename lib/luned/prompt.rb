@@ -14,7 +14,7 @@ class Luned::Prompt
 
   def display_breadcrumb
     # Prints current level and prompt for deeper level
-    print "#{@breadcrumb.join(" ")} #{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
+    print "#{" " + @breadcrumb.join(" ") + " " if !@breadcrumb.empty?}#{@@PROMPTS[@breadcrumb.size..-1].join(" ")}: "
   end
 
   def get_args

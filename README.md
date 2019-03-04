@@ -1,21 +1,9 @@
 # Luned
 
-
-
+Inspired by tales of the moon and weather's affect on Emergency services, Luned pulls Seattle's public 911 data and combines with hourly weather and lunar phase data.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'Luned'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install:
 
     $ gem install Luned
 
@@ -24,11 +12,22 @@ The two APIs this project uses require tokens.
 Register for a Dark Sky token here: https://darksky.net/dev/register
 And a Socrata token here: https://opendata.socrata.com/login
 
-Create a .env file in your project's root folder
+Create a .env file in the project's root folder with the following expressions:
+
+  * socrata=<your_socrata_token>
+  * dar_sky=<your_dark_sky_token>
 
 ## Usage
 
-TODO: Write usage instructions here
+Takes combinations of number representations of year, month, day and hour. Full phrases aren't required. All time are Seattle local Pacific time. Examples:
+
+  * 2018 2 3 16 <enter> would displays data for 03 Feb 2018 4:00pm Pacific
+  * 2019 1 4 <enter> displays 04 Jan 2019 Pacific
+  * 2017 8 <enter> displays August 2017 Pacific
+
+  <..> Move up a level
+  <q> Quit
+  <enter> Re-display current level.  Help at the day level after displaying multiple hours.
 
 ## Development
 
@@ -47,3 +46,8 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Luned project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/davisjustinw/luned/blob/master/CODE_OF_CONDUCT.md).
+
+## Attribution
+
+Powered by Dark Sky: https://darksky.net/poweredby
+Powered by Socrata: https://dev.socrata.com/
