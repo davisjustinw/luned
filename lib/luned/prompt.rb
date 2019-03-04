@@ -31,14 +31,6 @@ class Luned::Prompt
     @args.all? {|arg| arg =~/q|[..]|[0-9]+$*/}
   end
 
-  def up
-    # Handles navigation up the domain model.
-    while @args.first == '..'
-      @args.shift
-      @breadcrumb.pop
-    end
-  end
-
   def submit_args
     # Moves up the domain model validates, and adds to current state.
     up
@@ -49,12 +41,6 @@ class Luned::Prompt
     end
     @args.clear
   end
-
-  def pop_hour
-    # Pops the hour off breadcrumb to allow repeated hour displays.
-    @breadcrumb.pop if @breadcrumb.size == @@PROMPTS.size
-  end
-
 
   def valid_time?(arg)
     # Validate accoording to breadcrumb state.
@@ -70,12 +56,6 @@ class Luned::Prompt
     else
       false
     end
-  end
-
-  def min_date
-    # Earliest consistent entries in the 911 data.
-    # Tests for valid calendar entries as well as scope of data.
-    Time.new(2010, 7, 1)
   end
 
   def valid_year?(int)
@@ -107,19 +87,29 @@ class Luned::Prompt
     end
   end
 
+  def pop_hour
+    # Pops the hour off breadcrumb to allow repeated hour displays.
+    @breadcrumb.pop if @breadcrumb.size == @@PROMPTS.size
+  end
+
+  ## Support methods
+
+  def up
+    # Handles navigation up the domain model.
+    while @args.first == '..'
+      @args.shift
+      @breadcrumb.pop
+    end
+  end
+
   def hour?(int)
     int.between?(0,23) if int
   end
 
-
-
-
-
-
-
-
-
-
-
+  def min_date
+    # Earliest consistent entries in the 911 data.
+    # Tests for valid calendar entries as well as scope of data.
+    Time.new(2010, 7, 1)
+  end
 
 end

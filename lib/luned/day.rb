@@ -31,7 +31,7 @@ class Luned::Day
   end
 
   def build_observations
-    daily = @@api.get_weather(year, month, is)
+    daily = @@api.get_weather_data(year, month, is)
     @summary = daily["summary"]
     @high = daily["temperatureHigh"]
     @low = daily["temperatureLow"]

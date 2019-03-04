@@ -21,7 +21,7 @@ class Luned::Month
 
   def self.build_from_api(year, month)
     create(year, month).tap do |month|
-      @@api.get_call_rows(month)
+      @@api.get_call_data(month)
       while !@@api.call_rows.empty? do
         row = @@api.next_call_row
         month.new_call(row[:time], row[:address], row[:type], row[:incident_number])

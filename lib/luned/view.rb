@@ -99,6 +99,8 @@ class Luned::View
     print "\n"
   end
 
+  ## Support methods
+
   def moon(phase)
     # Displays ANSI moon phase emoji based on each 1/8th lunar phase.
     icons = {"0.0"=>"\u{1F311}", "0.125"=>"\u{1F312}", "0.25"=>"\u{1F313}", "0.375"=>"\u{1F314}", "0.5"=>"\u{1F315}", "0.625"=>"\u{1F316}", "0.75"=>"\u{1F317}", "0.875"=>"\u{1F318}", "1.0"=>"\u{1F311}"}

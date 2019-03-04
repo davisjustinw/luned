@@ -23,7 +23,7 @@ class Luned::API
     @hourly_observation_rows = []
   end
 
-  def get_call_rows(month)
+  def get_call_data(month)
     # Gets a month's worth of call data from Socrata.  Socrata allows more granular
     # queries however the timezone formmatting for this dataset made that impractical.
     # The data set was recorded at Pacific time but the server treats it as UTC.
@@ -66,7 +66,7 @@ class Luned::API
     end
   end
 
-  def get_weather(year, month, day)
+  def get_weather_data(year, month, day)
     # GETs day's weather observations for given coordinates.
     # GPS coordinates of Flatiron Seattle Campus :).
     location = "47.609400,-122.336345"
