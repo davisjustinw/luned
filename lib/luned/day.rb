@@ -46,9 +46,12 @@ class Luned::Day
     @moonphase = daily["moonPhase"]
 
     # While the buffer has rows build observations and add to appropriate hour.
+
     while !@@api.hourly_observation_rows.empty? do
       row = @@api.next_hourly_observation_row
-      hours[row[:time].hour].new_observation(row[:time], row[:summary], row[:temperature], row[:pressure])
+      if hours[row[:time].hour]
+        hours[row[:time].hour].new_observation(row[:time], row[:summary], row[:temperature], row[:pressure])
+      end
     end
   end
 
