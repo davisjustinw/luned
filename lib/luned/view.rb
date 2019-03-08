@@ -54,17 +54,26 @@ class Luned::View
     print "\n"
     print " ------------- #{month.time.strftime("%b %Y")} ------------- \n\n"
     print " | Su | Mo | Tu | We | Th | Fr | Sa | \n "
-    calendar = ""
+    # Position day 1 under the correct weekday.
+    #binding.pry
+    calendar = "|    " * Time.new(month.year, month.is, 1).wday
+    #month.days.each do |day|
+    binding.pry
+    (1..month.time.end_of_month.day).each do |day|
+      if month.days[day]
+        day = month.days[day]
+        # Add red backgrounds and leading zeros
+        entry = add_heat(day.is.to_s.rjust(2,"0"), day.count, month.minmax_count)
+        calendar += "| #{entry} "
+        # End of the week newline
 
-    month.days.each do |day|
-      day = day.last
-      # Position day 1 under the correst weekday.
-      calendar += "|    " * day.weekday if day.is == 1
-      # Add red backgrounds and leading zeros
-      entry = add_heat(day.is.to_s.rjust(2,"0"), day.count, month.minmax_count)
-      calendar += "| #{entry} "
-      # End of the week newline
-      calendar += "| \n " if day.weekday == 6
+        calendar += "| \n " if day.weekday == 6
+      else
+        #no data
+        calendar += "| ** "
+        #account for end of week
+        calendar += "| \n " if Time.new(month.year, month.is, day).wday == 6
+      end
     end
     print calendar
     print "\n"
