@@ -55,10 +55,8 @@ class Luned::View
     print " ------------- #{month.time.strftime("%b %Y")} ------------- \n\n"
     print " | Su | Mo | Tu | We | Th | Fr | Sa | \n "
     # Position day 1 under the correct weekday.
-    #binding.pry
     calendar = "|    " * Time.new(month.year, month.is, 1).wday
-    #month.days.each do |day|
-    binding.pry
+    
     (1..month.time.end_of_month.day).each do |day|
       if month.days[day]
         day = month.days[day]
@@ -96,7 +94,8 @@ class Luned::View
     print "#{chart}\n"
     print "-----------------------------------------\n\n"
     print "#{moon(day.moonphase)} - #{day.low}F #{day.high}F - #{day.pressure}mb\n"
-    print "#{day.summary}\n\n"
+    print "#{day.summary}\n"
+    print "Total: #{day.count} calls\n\n"
 
   end
 
