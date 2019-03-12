@@ -26,25 +26,25 @@ class Luned::View
     # Gets or builds data objects based on breadcrumb state,
     # building weather and call data as needed.
     case args.size
-    when 2
-      month(Luned::Month.get_or_build(*args))
-    when 3
-      time = Time.new(*args)
-      Luned::Month.get_or_build(time.year, time.month).\
-        get_or_new_day(time).tap do |obj|
-          obj.build_observations_as_needed
-          day(obj)
+      when 2
+        month(Luned::Month.get_or_build(*args))
+      when 3
+        time = Time.new(*args)
+        Luned::Month.get_or_build(time.year, time.month).\
+          get_or_new_day(time).tap do |obj|
+            obj.build_observations_as_needed
+            day(obj)
+          end
+      when 4
+        time = Time.new(*args)
+        Luned::Month.get_or_build(time.year, time.month).tap do |obj|
+          obj.get_or_new_day(time).tap do |obj|
+            obj.build_observations_as_needed
+            hour(obj.get_or_new_hour(time))
+          end
         end
-    when 4
-      time = Time.new(*args)
-      Luned::Month.get_or_build(time.year, time.month).tap do |obj|
-        obj.get_or_new_day(time).tap do |obj|
-          obj.build_observations_as_needed
-          hour(obj.get_or_new_hour(time))
-        end
-      end
-    else
-      nil
+      else
+        nil
     end
   end
 
@@ -56,7 +56,7 @@ class Luned::View
     print " | Su | Mo | Tu | We | Th | Fr | Sa | \n "
     # Position day 1 under the correct weekday.
     calendar = "|    " * Time.new(month.year, month.is, 1).wday
-    
+
     (1..month.time.end_of_month.day).each do |day|
       if month.days[day]
         day = month.days[day]

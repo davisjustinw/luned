@@ -35,7 +35,7 @@ class Luned::Day
   end
 
   def build_observations
-    # Instantiate Observaation objects and populate with weatger data.
+    # Instantiate Observaation objects and populate with weather data.
     daily = @@api.get_weather_data(year, month, is)
 
     # Daily summary data.

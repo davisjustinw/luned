@@ -32,7 +32,7 @@ class Luned::Prompt
   end
 
   def submit_args
-    # Moves up the domain model validates, and adds to current state.
+    # Moves up the domain model, validates, and adds to current state.
     up
     @args.each do |arg|
         arg.to_i.tap do |int|

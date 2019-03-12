@@ -1,6 +1,6 @@
 ## Entry point for Luned command line interface.
 # Prompt controls input and breadcrumb.
-# View displays data and triggers obect creation with API calls when needed.
+# View displays data and triggers object creation with API calls when needed.
 
 class Luned::Controller
 
@@ -31,5 +31,5 @@ class Luned::Controller
       end
     end
   end
-  
+
 end
